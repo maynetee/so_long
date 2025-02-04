@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/02 13:06:44 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:29:17 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,23 @@ typedef struct s_game
 	int		player_y;
 	int		collectibles;
 	int		moves;
-	int count_p;
-	int count_e;
-	int count_c;
+	int		count_p;
+	int		count_e;
+	int		count_c;
 }			t_game;
 
-/* map_checks.c */
-int			check_map_dimensions(int fd, t_game *game);
-int			allocate_map(t_game *game);
-static void	free_map(char **map, int height);
-
-/* file_checks.c */
+/*                            file_checks.c                            */
 int			check_file_extension(char *filename);
 int			open_map_file(char *filename);
+
+/*                            map_checks.c                            */
+int			check_map_dimensions(int fd, t_game *game);
+
+/*                            map_utils.c                             */
+void		free_map(char **map);
+int			allocate_map(t_game *game);
+
+/*                            map_parser.c                             */
+int			read_map_file(char *filename, t_game *game);
 
 #endif

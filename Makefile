@@ -10,7 +10,11 @@ LIBFT_PATH = Libft
 LIBFT_NAME = libft.a
 LIBFT_LIB = $(LIBFT_PATH)/$(LIBFT_NAME)
 
-SRCS = main.c file_checks.c map_checks.c
+SRCS = main.c \
+       file_checks.c \
+       map_checks.c \
+       map_utils.c
+
 OBJS = $(SRCS:.c=.o)
 
 INCLUDES = -I$(LIBFT_PATH)/includes -I$(MLX_PATH)
