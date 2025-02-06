@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:12 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/02 13:25:35 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:10:59 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		ft_printf("Error\nUsage: ./so_long map.ber\n");
+		ft_printf("Error\nUse this program this way: ./so_long map.ber\n");
 		return (1);
 	}
 	init_game_struct(&game);
