@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/02 14:29:17 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:32:26 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int			allocate_map(t_game *game);
 
 /*                            map_parser.c                             */
 int			read_map_file(char *filename, t_game *game);
+int			validate_map_content(t_game *game);
 
 #endif
