@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 19:32:26 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:54:10 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,15 @@ int			check_map_dimensions(int fd, t_game *game);
 void		free_map(char **map);
 int			allocate_map(t_game *game);
 
-/*                            map_parser.c                             */
+/*                            map_reader.c                            */
 int			read_map_file(char *filename, t_game *game);
+int			check_and_store_line(char *line, t_game *game, int y);
+
+/*                            map_validator.c                         */
 int			validate_map_content(t_game *game);
+int			check_walls(t_game *game);
+
+/*                            path_check.c                            */
+int			is_path_valid(t_game *game);
 
 #endif

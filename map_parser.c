@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:28:57 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 19:32:12 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:52:54 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ static int	is_valid_char(char c)
 	return (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P');
 }
 
-static int	check_and_store_line(char *line, t_game *game, int y)
+int	check_and_store_line(char *line, t_game *game, int y)
 {
 	int	x;
 
+	if (!game || !line)
+		return (0);
 	x = 0;
-	while (line[x] && line[x] != '\n')
+	while (line[x] && line[x] != '\n' && x < game->width)
 	{
 		if (!is_valid_char(line[x]))
 			return (0);
@@ -39,58 +41,5 @@ static int	check_and_store_line(char *line, t_game *game, int y)
 			game->count_c++;
 		x++;
 	}
-	return (1);
-}
-
-int validate_map_content(t_game *game)
-{
-    if (game->count_p != 1)
-    {
-        ft_printf("Error\nMap must contain exactly one player (P)\n");
-        return (0);
-    }
-    if (game->count_e != 1)
-    {
-        ft_printf("Error\nMap must contain exactly one exit (E)\n");
-        return (0);
-    }
-    if (game->count_c < 1)
-    {
-        ft_printf("Error\nMap must contain at least one collectible (C)\n");
-        return (0);
-    }
-    return (1);
-}
-
-int	read_map_file(char *filename, t_game *game)
-{
-	int		fd;
-	char	*line;
-	int		i;
-
-	fd = open_map_file(filename);
-	if (fd == -1)
-		return (0);
-	if (!allocate_map(game))
-	{
-		close(fd);
-		return (0);
-	}
-	i = 0;
-	line = get_next_line(fd);
-	while (line && i < game->height)
-	{
-		if (!check_and_store_line(line, game, i))
-		{
-			free(line);
-			close(fd);
-			free_map(game->map);
-			return (0);
-		}
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	close(fd);
-	return (validate_map_content(game));
+	return (x == game->width);
 }
