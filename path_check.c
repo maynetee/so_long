@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 19:48:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 20:30:39 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:58:14 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static char	**copy_map(t_game *game)
 	char	**copy;
 	int		i;
 
-	if (!game || !game->map)
-		return (NULL);
 	copy = (char **)ft_calloc(game->height + 1, sizeof(char *));
 	if (!copy)
 		return (NULL);
@@ -48,20 +46,20 @@ static char	**copy_map(t_game *game)
 		}
 		i++;
 	}
-	copy[i] = NULL;
 	return (copy);
 }
 
-static void	flood_fill(char **map, int x, int y, t_game *game)
+static void	flood_fill(char **map, int x, int y, t_game *g)
 {
-	if (x < 0 || x >= game->width || y < 0 || y >= game->height
-		|| map[y][x] == '1' || map[y][x] == 'F')
+	if (x < 0 || x >= g->width || y < 0 || y >= g->height)
+		return ;
+	if (map[y][x] == '1' || map[y][x] == 'F')
 		return ;
 	map[y][x] = 'F';
-	flood_fill(map, x + 1, y, game);
-	flood_fill(map, x - 1, y, game);
-	flood_fill(map, x, y + 1, game);
-	flood_fill(map, x, y - 1, game);
+	flood_fill(map, x + 1, y, g);
+	flood_fill(map, x - 1, y, g);
+	flood_fill(map, x, y + 1, g);
+	flood_fill(map, x, y - 1, g);
 }
 
 static int	check_reachable(char **map, t_game *game)
@@ -90,15 +88,16 @@ int	is_path_valid(t_game *game)
 	char	**map_copy;
 	int		result;
 
-	if (!game)
-		return (0);
 	map_copy = copy_map(game);
 	if (!map_copy)
+	{
+		ft_printf("Error\nFailed to allocate map copy\n");
 		return (0);
+	}
 	flood_fill(map_copy, game->player_x, game->player_y, game);
 	result = check_reachable(map_copy, game);
 	if (!result)
-		ft_printf("Error\nNo valid path to all collectibles and exit\n");
+		ft_printf("Error\nNo valid path to all collectibles or exit\n");
 	free_map_copy(map_copy, game->height);
 	return (result);
 }

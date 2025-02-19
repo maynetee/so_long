@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:41:33 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/02 13:30:51 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:57:07 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 
 int	check_file_extension(char *filename)
 {
-	char	*verif;
+	char	*dot;
 
-	verif = ft_strrchr(filename, '.');
-	if (!verif)
+	dot = ft_strrchr(filename, '.');
+	if (!dot)
 	{
-		ft_printf("Error\nFile must have an extension\n");
+		ft_printf("Error\nNo file extension found\n");
 		return (0);
 	}
-	if (ft_strncmp(verif + 1, "ber", 3) != 0)
-	{
-		ft_printf("Error\nExtension must be .ber\n");
-		return (0);
-	}
-	if (*(verif + 4) != '\0')
+	if (ft_strncmp(dot, ".ber", 4) != 0 || dot[4] != '\0')
 	{
 		ft_printf("Error\nExtension must be exactly .ber\n");
 		return (0);
@@ -35,15 +30,27 @@ int	check_file_extension(char *filename)
 	return (1);
 }
 
-int	open_map_file(char *filename)
+int	check_args(t_game *game, int ac, char **av)
 {
-	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	if (ac != 2)
 	{
-		ft_printf("Error\nCannot open the file\n");
-		return (-1);
+		ft_printf("Error\nUsage: ./so_long map.ber\n");
+		return (0);
 	}
-	return (fd);
+	if (!check_file_extension(av[1]))
+		return (0);
+	game->fd = open(av[1], O_RDONLY);
+	if (game->fd < 0)
+	{
+		perror("Error");
+		ft_printf("Error\nCannot open file: %s\n", av[1]);
+		return (0);
+	}
+	if (!read_and_parse_map(game))
+	{
+		close(game->fd);
+		return (0);
+	}
+	close(game->fd);
+	return (1);
 }

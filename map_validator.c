@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   map_validator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 19:54:30 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 19:54:37 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:58:03 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	check_walls(t_game *game)
+static int	check_walls(t_game *game)
 {
 	int	i;
 
-	if (!game)
-		return (0);
 	i = 0;
 	while (i < game->width)
 	{
-		if (game->map[0][i] != '1' || game->map[game->height - 1][i] != '1')
+		if (game->map[0][i] != '1'
+			|| game->map[game->height - 1][i] != '1')
 		{
 			ft_printf("Error\nMap must be surrounded by walls\n");
 			return (0);
@@ -31,7 +30,8 @@ int	check_walls(t_game *game)
 	i = 0;
 	while (i < game->height)
 	{
-		if (game->map[i][0] != '1' || game->map[i][game->width - 1] != '1')
+		if (game->map[i][0] != '1'
+			|| game->map[i][game->width - 1] != '1')
 		{
 			ft_printf("Error\nMap must be surrounded by walls\n");
 			return (0);
@@ -43,8 +43,6 @@ int	check_walls(t_game *game)
 
 int	validate_map_content(t_game *game)
 {
-	if (!game)
-		return (0);
 	if (game->count_p != 1)
 	{
 		ft_printf("Error\nMap must contain exactly one player (P)\n");

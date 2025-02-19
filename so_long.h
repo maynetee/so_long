@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 19:54:10 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:58:54 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,56 @@
 # include "mlx_linux/mlx.h"
 # include <fcntl.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win;
-	char	**map;
+	int		fd;
 	int		width;
 	int		height;
 	int		player_x;
 	int		player_y;
-	int		collectibles;
-	int		moves;
 	int		count_p;
 	int		count_e;
 	int		count_c;
-}			t_game;
+	char	**map;
+	void	*mlx;
+	void	*win;
+}	t_game;
 
-/*                            file_checks.c                            */
-int			check_file_extension(char *filename);
-int			open_map_file(char *filename);
+int		check_args(t_game *game, int ac, char **av);
+int		check_file_extension(char *filename);
+int		main(int ac, char **av);
+int		check_line_length(char *line, int expected_width);
+int		read_and_parse_map(t_game *game);
+void	free_map(char **map);
+int		allocate_map(t_game *game);
+int		check_rectangular(char **lines, int height, int width);
+int		validate_map_content(t_game *game);
+int		is_path_valid(t_game *game);
 
-/*                            map_checks.c                            */
-int			check_map_dimensions(int fd, t_game *game);
+static inline int	free_lines_return(char **lines, int ret)
+{
+	int	i;
 
-/*                            map_utils.c                             */
-void		free_map(char **map);
-int			allocate_map(t_game *game);
+	if (!lines)
+		return (ret);
+	i = 0;
+	while (lines[i])
+	{
+		free(lines[i]);
+		i++;
+	}
+	free(lines);
+	return (ret);
+}
 
-/*                            map_reader.c                            */
-int			read_map_file(char *filename, t_game *game);
-int			check_and_store_line(char *line, t_game *game, int y);
-
-/*                            map_validator.c                         */
-int			validate_map_content(t_game *game);
-int			check_walls(t_game *game);
-
-/*                            path_check.c                            */
-int			is_path_valid(t_game *game);
+static inline int	free_line_return(char *line, int ret)
+{
+	if (line)
+		free(line);
+	return (ret);
+}
 
 #endif

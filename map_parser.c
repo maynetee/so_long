@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:28:57 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 19:52:54 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:41:37 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	is_valid_char(char c)
 {
-	return (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P');
+	return (c == '0' || c == '1' || c == 'C'
+		|| c == 'E' || c == 'P');
 }
 
 int	check_and_store_line(char *line, t_game *game, int y)
@@ -31,6 +32,8 @@ int	check_and_store_line(char *line, t_game *game, int y)
 		game->map[y][x] = line[x];
 		if (line[x] == 'P')
 		{
+			if (game->count_p == 1)
+				return (0);
 			game->count_p++;
 			game->player_x = x;
 			game->player_y = y;

@@ -6,85 +6,93 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 19:52:36 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/06 20:35:47 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:59:52 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static int	validate_line_length(char *line, t_game *game)
-{
-	size_t	len;
-
-	if (!line || !game)
-		return (0);
-	len = 0;
-	while (line[len] && line[len] != '\n')
-		len++;
-	return (len == (size_t)game->width);
-}
-
-static int	process_line(char *line, t_game *game, int i)
-{
-	if (!line || !game || i < 0 || i >= game->height)
-	{
-		free(line);
-		return (0);
-	}
-	if (!validate_line_length(line, game) || !check_and_store_line(line, game,
-			i))
-	{
-		free(line);
-		if (game->map)
-			free_map(game->map);
-		return (0);
-	}
-	free(line);
-	return (1);
-}
-
-static int	init_map_reading(char *filename, t_game *game, int *fd)
-{
-	if (!game || !filename)
-		return (0);
-	*fd = open_map_file(filename);
-	if (*fd == -1)
-		return (0);
-	if (!allocate_map(game))
-	{
-		close(*fd);
-		return (0);
-	}
-	return (1);
-}
-
-static int	process_map_lines(int fd, t_game *game)
+static int	store_lines(t_game *game, char ***lines)
 {
 	char	*line;
 	int		i;
 
+	*lines = ft_calloc(1, sizeof(char *));
+	if (!*lines)
+		return (0);
 	i = 0;
-	line = get_next_line(fd);
-	while (line && i < game->height)
+	line = get_next_line(game->fd);
+	while (line)
 	{
-		if (!process_line(line, game, i++))
-		{
-			close(fd);
-			return (0);
-		}
-		line = get_next_line(fd);
+		*lines = ft_realloc_tab(*lines, i + 1);
+		if (!*lines)
+			return (free_line_return(line, 0));
+		(*lines)[i++] = line;
+		line = get_next_line(game->fd);
 	}
-	return (i);
+	game->height = i;
+	if (game->height < 1)
+		return (free_lines_return(*lines, 0));
+	return (1);
 }
 
-int	read_map_file(char *filename, t_game *game)
+static int	check_and_store_line(char *line, t_game *game, int y)
 {
-	int	fd;
-	int	lines_read;
+	int	x;
 
-	if (!init_map_reading(filename, game, &fd))
+	x = 0;
+	while (line[x] && line[x] != '\n' && x < game->width)
+	{
+		if (line[x] != '0' && line[x] != '1' && line[x] != 'C'
+			&& line[x] != 'E' && line[x] != 'P')
+		{
+			ft_printf("Error\nInvalid char in map: %c\n", line[x]);
+			return (0);
+		}
+		game->map[y][x] = line[x];
+		if (line[x] == 'P' && ++game->count_p > 1)
+			return (0);
+		else if (line[x] == 'E' && ++game->count_e > 1)
+			return (0);
+		else if (line[x] == 'C')
+			game->count_c++;
+		x++;
+	}
+	return (1);
+}
+
+static int	parse_lines(char **lines, t_game *game)
+{
+	int	y;
+
+	if (!allocate_map(game))
 		return (0);
-	lines_read = process_map_lines(fd, game);
-	close(fd);
-	return (lines_read == game->height && validate_map_content(game));
+	y = 0;
+	while (y < game->height)
+	{
+		if (!check_and_store_line(lines[y], game, y))
+			return (0);
+		y++;
+	}
+	return (1);
+}
+
+int	read_and_parse_map(t_game *game)
+{
+	char	**lines;
+
+	lines = NULL;
+	if (!store_lines(game, &lines))
+		return (0);
+	game->width = (int)ft_strlen(lines[0]);
+	if (lines[0][game->width - 1] == '\n')
+		game->width--;
+	if (!check_rectangular(lines, game->height, game->width))
+		return (free_lines_return(lines, 0));
+	if (!parse_lines(lines, game))
+		return (free_lines_return(lines, 0));
+	if (!validate_map_content(game))
+		return (free_lines_return(lines, 0));
+	free_lines_return(lines, 1);
+	return (1);
 }

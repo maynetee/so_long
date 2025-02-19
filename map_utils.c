@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 13:26:14 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/02 13:26:16 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:57:52 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	allocate_map(t_game *game)
 {
 	int	i;
 
-	if (game->height < 3 || game->width < 3)
+	if (game->height < 1 || game->width < 1)
 		return (0);
 	game->map = (char **)ft_calloc(game->height + 1, sizeof(char *));
 	if (!game->map)
@@ -43,10 +43,31 @@ int	allocate_map(t_game *game)
 		if (!game->map[i])
 		{
 			free_map(game->map);
+			game->map = NULL;
 			return (0);
 		}
 		i++;
 	}
-	game->map[i] = NULL;
+	return (1);
+}
+
+int	check_rectangular(char **lines, int height, int width)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	while (i < height)
+	{
+		len = ft_strlen(lines[i]);
+		if (lines[i][len - 1] == '\n')
+			len--;
+		if (len != width)
+		{
+			ft_printf("Error\nMap is not rectangular\n");
+			return (0);
+		}
+		i++;
+	}
 	return (1);
 }
