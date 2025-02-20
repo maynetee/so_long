@@ -45,6 +45,7 @@ int		allocate_map(t_game *game);
 int		check_rectangular(char **lines, int height, int width);
 int		validate_map_content(t_game *game);
 int		is_path_valid(t_game *game);
+int		parse_lines(char **lines, t_game *game);
 
 static inline int	free_lines_return(char **lines, int ret)
 {

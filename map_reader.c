@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-static int	process_line(t_game *game, char ***lines, char **line, int *i)
+static int	process_line(char ***lines, char **line, int *i)
 {
 	if ((*line)[0] == '\n')
 	{
@@ -40,7 +40,7 @@ static int	store_lines(t_game *game, char ***lines)
 	line = get_next_line(game->fd);
 	while (line)
 	{
-		if (!process_line(game, lines, &line, &i))
+		if (!process_line(lines, &line, &i))
 			return (0);
 		if (!line)
 			line = get_next_line(game->fd);

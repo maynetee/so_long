@@ -51,7 +51,10 @@ static int	check_and_store_line(char *line, t_game *game, int y)
 		game->map[y][x] = line[x];
 		update_game_counts(game, line[x], x, y);
 		if (game->count_p == -1)
+		{
+			ft_printf("Error\nMap must contain exactly one player (P)\n");
 			return (0);
+		}
 		x++;
 	}
 	return (1);
