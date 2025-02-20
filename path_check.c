@@ -31,7 +31,6 @@ static char	**copy_map(t_game *game)
 {
 	char	**copy;
 	int		i;
-	int		j;
 
 	copy = (char **)ft_calloc(game->height + 1, sizeof(char *));
 	if (!copy)
@@ -47,9 +46,6 @@ static char	**copy_map(t_game *game)
 		}
 		i++;
 	}
-	j = 0;
-	while (copy[j])
-		j++;
 	return (copy);
 }
 
@@ -59,7 +55,8 @@ static void	flood_fill(char **map, int x, int y, t_game *g)
 		return ;
 	if (map[y][x] == '1' || map[y][x] == 'F')
 		return ;
-	map[y][x] = 'F';
+	if (map[y][x] != 'C' && map[y][x] != 'E')
+		map[y][x] = 'F';
 	flood_fill(map, x + 1, y, g);
 	flood_fill(map, x - 1, y, g);
 	flood_fill(map, x, y + 1, g);
@@ -84,14 +81,6 @@ static int	check_reachable(char **map, t_game *game)
 		}
 		y++;
 	}
-	y = 0;
-	while (y < game->height)
-	{
-		x = 0;
-		while (x < game->width)
-			x++;
-		y++;
-	}
 	return (1);
 }
 
@@ -108,8 +97,6 @@ int	is_path_valid(t_game *game)
 	}
 	flood_fill(map_copy, game->player_x, game->player_y, game);
 	result = check_reachable(map_copy, game);
-	if (!result)
-		ft_printf("Error\nNo valid path to all collectibles or exit\n");
 	free_map_copy(map_copy, game->height);
 	return (result);
 }

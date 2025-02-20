@@ -49,8 +49,7 @@ static int	check_walls(t_game *game)
 	i = 0;
 	while (i < game->height)
 	{
-		if (game->map[i][0] != '1'
-			|| game->map[i][game->width - 1] != '1')
+		if (game->map[i][0] != '1' || game->map[i][game->width - 1] != '1')
 		{
 			ft_printf("Error\nMap must be surrounded by walls\n");
 			return (0);
