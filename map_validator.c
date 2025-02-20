@@ -43,6 +43,8 @@ static int	check_walls(t_game *game)
 
 int	validate_map_content(t_game *game)
 {
+	int	path_valid;
+
 	if (game->count_p != 1)
 	{
 		ft_printf("Error\nMap must contain exactly one player (P)\n");
@@ -60,7 +62,11 @@ int	validate_map_content(t_game *game)
 	}
 	if (!check_walls(game))
 		return (0);
-	if (!is_path_valid(game))
+	path_valid = is_path_valid(game);
+	if (!path_valid)
+	{
+		ft_printf("Error\nNo valid path to all collectibles or exit\n");
 		return (0);
+	}
 	return (1);
 }

@@ -24,18 +24,20 @@ static int	store_lines(t_game *game, char ***lines)
 	line = get_next_line(game->fd);
 	while (line)
 	{
+		if (line[0] == '\n')
+		{
+			free(line);
+			line = get_next_line(game->fd);
+			continue ;
+		}
 		*lines = ft_realloc_tab(*lines, i + 1);
 		if (!*lines)
 			return (free_line_return(line, 0));
-		(*lines)[i] = line;
-		i++;
-		(*lines)[i] = NULL;
+		(*lines)[i++] = line;
 		line = get_next_line(game->fd);
 	}
 	game->height = i;
-	if (game->height < 1)
-		return (free_lines_return(*lines, 0));
-	return (1);
+	return (game->height > 0);
 }
 
 static int	check_and_store_line(char *line, t_game *game, int y)
@@ -52,10 +54,16 @@ static int	check_and_store_line(char *line, t_game *game, int y)
 			return (0);
 		}
 		game->map[y][x] = line[x];
-		if (line[x] == 'P' && ++game->count_p > 1)
-			return (0);
-		else if (line[x] == 'E' && ++game->count_e > 1)
-			return (0);
+		if (line[x] == 'P')
+		{
+			if (game->count_p == 1)
+				return (0);
+			game->count_p++;
+			game->player_x = x;
+			game->player_y = y;
+		}
+		else if (line[x] == 'E')
+			game->count_e++;
 		else if (line[x] == 'C')
 			game->count_c++;
 		x++;

@@ -61,7 +61,10 @@ int	check_rectangular(char **lines, int height, int width)
 	{
 		len = ft_strlen(lines[i]);
 		if (lines[i][len - 1] == '\n')
+		{
 			len--;
+			lines[i][len] = '\0';
+		}
 		if (len != width)
 		{
 			ft_printf("Error\nMap is not rectangular\n");

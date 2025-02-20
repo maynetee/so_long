@@ -31,6 +31,7 @@ static char	**copy_map(t_game *game)
 {
 	char	**copy;
 	int		i;
+	int		j;
 
 	copy = (char **)ft_calloc(game->height + 1, sizeof(char *));
 	if (!copy)
@@ -46,6 +47,9 @@ static char	**copy_map(t_game *game)
 		}
 		i++;
 	}
+	j = 0;
+	while (copy[j])
+		j++;
 	return (copy);
 }
 
@@ -78,6 +82,14 @@ static int	check_reachable(char **map, t_game *game)
 				return (0);
 			x++;
 		}
+		y++;
+	}
+	y = 0;
+	while (y < game->height)
+	{
+		x = 0;
+		while (x < game->width)
+			x++;
 		y++;
 	}
 	return (1);
