@@ -55,8 +55,7 @@ static void	flood_fill(char **map, int x, int y, t_game *g)
 		return ;
 	if (map[y][x] == '1' || map[y][x] == 'F')
 		return ;
-	if (map[y][x] != 'C' && map[y][x] != 'E')
-		map[y][x] = 'F';
+	map[y][x] = 'F';
 	flood_fill(map, x + 1, y, g);
 	flood_fill(map, x - 1, y, g);
 	flood_fill(map, x, y + 1, g);
