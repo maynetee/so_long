@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_realloc_tab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 16:21:14 by mteichma          #+#    #+#             */
-/*   Updated: 2024/11/21 22:52:25 by mteichma         ###   ########.fr       */
+/*   Created: 2025/02/20 01:33:22 by mteichma          #+#    #+#             */
+/*   Updated: 2025/02/20 01:33:25 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	**ft_realloc_tab(char **old, int new_size)
 {
-	unsigned char		*d;
-	const unsigned char	*s;
-	size_t				i;
+	char	**new;
+	int		i;
 
-	if (!dst && !src)
+	new = ft_calloc(new_size + 1, sizeof(char *));
+	if (!new)
 		return (NULL);
-	d = (unsigned char *)dst;
-	s = (const unsigned char *)src;
 	i = 0;
-	while (i < n)
+	while (old && old[i])
 	{
-		d[i] = s[i];
+		new[i] = old[i];
 		i++;
+		if (i >= new_size)
+			break ;
 	}
-	return (dst);
+	free(old);
+	return (new);
 }

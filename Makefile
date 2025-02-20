@@ -1,6 +1,6 @@
 NAME = so_long
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 MLX_PATH = mlx_linux
 MLX_NAME = libmlx.a
@@ -13,7 +13,12 @@ LIBFT_LIB = $(LIBFT_PATH)/$(LIBFT_NAME)
 SRCS = main.c \
        file_checks.c \
        map_checks.c \
-       map_utils.c
+       map_utils.c \
+       map_reader.c \
+       map_parser.c \
+       map_validator.c \
+       path_check.c
+
 
 OBJS = $(SRCS:.c=.o)
 

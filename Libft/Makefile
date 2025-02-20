@@ -1,6 +1,6 @@
 NAME = libft.a
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 SRCS = srcs/ft_atoi.c \
        srcs/ft_bzero.c \
@@ -46,6 +46,8 @@ SRCS = srcs/ft_atoi.c \
        srcs/ft_substr.c \
        srcs/ft_tolower.c \
        srcs/ft_toupper.c \
+       srcs/ft_realloc.c \
+       srcs/ft_realloc_tab.c \
        srcs/ft_printf.c \
        srcs/ft_printf_dispatch.c \
        srcs/ft_printf_helpers.c \

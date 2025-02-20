@@ -101,7 +101,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 1024)
 		return (NULL);
-	while (!ft_strchr(buffers[fd], '\n'))
+	while (buffers[fd] == NULL || !ft_strchr(buffers[fd], '\n'))
 	{
 		rs = read_to_buffer(fd, &buffers[fd]);
 		if (rs == -1 || (rs <= 0 && !buffers[fd]))

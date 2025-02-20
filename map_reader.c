@@ -27,7 +27,9 @@ static int	store_lines(t_game *game, char ***lines)
 		*lines = ft_realloc_tab(*lines, i + 1);
 		if (!*lines)
 			return (free_line_return(line, 0));
-		(*lines)[i++] = line;
+		(*lines)[i] = line;
+		i++;
+		(*lines)[i] = NULL;
 		line = get_next_line(game->fd);
 	}
 	game->height = i;
