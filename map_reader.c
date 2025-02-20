@@ -62,9 +62,17 @@ int	read_and_parse_map(t_game *game)
 	if (!check_rectangular(lines, game->height, game->width))
 		return (free_lines_return(lines, 0));
 	if (!parse_lines(lines, game))
+	{
+		free_map(game->map);
+		game->map = NULL;
 		return (free_lines_return(lines, 0));
+	}
 	if (!validate_map_content(game))
+	{
+		free_map(game->map);
+		game->map = NULL;
 		return (free_lines_return(lines, 0));
+	}
 	free_lines_return(lines, 1);
 	return (1);
 }
