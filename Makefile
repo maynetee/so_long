@@ -19,7 +19,9 @@ SRCS = main.c \
        path_check.c \
        player_movement.c \
        window.c \
-       events.c
+       events.c \
+       game_cleanup.c
+
 
 OBJS = $(SRCS:.c=.o)
 

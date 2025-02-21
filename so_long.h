@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/14 23:58:54 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/21 02:00:59 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_game
 	void	*item_img;
 	void	*exit_img;
 	void	*player_img;
+	void	*floor_img;
 }	t_game;
 
 int		check_args(t_game *game, int ac, char **av);
@@ -57,6 +58,11 @@ int		close_game_wrapper(t_game *game);
 void	init_window(t_game *game);
 int		close_window(t_game *game);
 int		handle_keypress(int keycode, t_game *game);
+void	free_images(t_game *game);
+void	free_window_and_display(t_game *game);
+void	free_map_and_exit(t_game *game);
+void	close_game(t_game *game);
+int		close_game_wrapper(t_game *game);
 
 static inline int	free_lines_return(char **lines, int ret)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 00:53:21 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/21 02:01:55 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,25 @@ void	move_player(t_game *game, int new_x, int new_y)
 	}
 }
 
+void	put_image(t_game *game, void *img, int x, int y)
+{
+	mlx_put_image_to_window(game->mlx, game->win, img, x * 64, y * 64);
+}
+
+void	render_tile(t_game *game, int x, int y)
+{
+	if (game->map[y][x] == '1')
+		put_image(game, game->wall_img, x, y);
+	else if (game->map[y][x] == 'C')
+		put_image(game, game->item_img, x, y);
+	else if (game->map[y][x] == 'E')
+		put_image(game, game->exit_img, x, y);
+	else if (game->player_x == x && game->player_y == y)
+		put_image(game, game->player_img, x, y);
+	else if (game->map[y][x] == '0')
+		put_image(game, game->floor_img, x, y);
+}
+
 void	render_map(t_game *game)
 {
 	int	x;
@@ -55,18 +74,7 @@ void	render_map(t_game *game)
 		x = 0;
 		while (x < game->width)
 		{
-			if (game->map[y][x] == '1')
-				mlx_put_image_to_window(game->mlx, game->win,
-					game->wall_img, x * 64, y * 64);
-			else if (game->map[y][x] == 'C')
-				mlx_put_image_to_window(game->mlx, game->win,
-					game->item_img, x * 64, y * 64);
-			else if (game->map[y][x] == 'E')
-				mlx_put_image_to_window(game->mlx, game->win,
-					game->exit_img, x * 64, y * 64);
-			else if (game->player_x == x && game->player_y == y)
-				mlx_put_image_to_window(game->mlx, game->win,
-					game->player_img, x * 64, y * 64);
+			render_tile(game, x, y);
 			x++;
 		}
 		y++;
