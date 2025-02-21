@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_cleanup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 01:58:43 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 01:59:09 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:59:28 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,55 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->wall_img);
 		game->wall_img = NULL;
 	}
-	if (game->item_img)
-	{
-		mlx_destroy_image(game->mlx, game->item_img);
-		game->item_img = NULL;
-	}
-	if (game->exit_img)
-	{
-		mlx_destroy_image(game->mlx, game->exit_img);
-		game->exit_img = NULL;
-	}
-	if (game->player_img)
-	{
-		mlx_destroy_image(game->mlx, game->player_img);
-		game->player_img = NULL;
-	}
 	if (game->floor_img)
 	{
 		mlx_destroy_image(game->mlx, game->floor_img);
 		game->floor_img = NULL;
+	}
+	if (game->item_img_1)
+	{
+		mlx_destroy_image(game->mlx, game->item_img_1);
+		game->item_img_1 = NULL;
+	}
+	if (game->item_img_2)
+	{
+		mlx_destroy_image(game->mlx, game->item_img_2);
+		game->item_img_2 = NULL;
+	}
+	if (game->player_idle_1)
+	{
+		mlx_destroy_image(game->mlx, game->player_idle_1);
+		game->player_idle_1 = NULL;
+	}
+	if (game->player_idle_2)
+	{
+		mlx_destroy_image(game->mlx, game->player_idle_2);
+		game->player_idle_2 = NULL;
+	}
+	if (game->player_move_1)
+	{
+		mlx_destroy_image(game->mlx, game->player_move_1);
+		game->player_move_1 = NULL;
+	}
+	if (game->player_move_2)
+	{
+		mlx_destroy_image(game->mlx, game->player_move_2);
+		game->player_move_2 = NULL;
+	}
+	if (game->player_win)
+	{
+		mlx_destroy_image(game->mlx, game->player_win);
+		game->player_win = NULL;
+	}
+	if (game->exit_closed_img)
+	{
+		mlx_destroy_image(game->mlx, game->exit_closed_img);
+		game->exit_closed_img = NULL;
+	}
+	if (game->exit_open_img)
+	{
+		mlx_destroy_image(game->mlx, game->exit_open_img);
+		game->exit_open_img = NULL;
 	}
 }
 
