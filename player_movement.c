@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 20:53:13 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/21 23:57:39 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	move_player(t_game *game, int new_x, int new_y)
 
 void	put_image(t_game *game, void *img, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->win, img, x * 64, y * 64);
+	mlx_put_image_to_window(game->mlx, game->win, img, x * game->tile_size, y
+		* game->tile_size);
 }
 
 void	render_player(t_game *game, int x, int y)
@@ -94,26 +95,26 @@ void	render_player(t_game *game, int x, int y)
 
 void	render_tile(t_game *game, int x, int y)
 {
+	if (game->map[y][x] != '1')
+		put_image(game, game->floor_img, x, y);
 	if (game->map[y][x] == '1')
 		put_image(game, game->wall_img, x, y);
-	else if (game->map[y][x] == 'C')
+	if (game->map[y][x] == 'C')
 	{
 		if (game->frame_count < 10)
 			put_image(game, game->item_img_1, x, y);
 		else
 			put_image(game, game->item_img_2, x, y);
 	}
-	else if (game->map[y][x] == 'E')
+	if (game->map[y][x] == 'E')
 	{
 		if (game->count_c == 0)
 			put_image(game, game->exit_open_img, x, y);
 		else
 			put_image(game, game->exit_closed_img, x, y);
 	}
-	else if (game->player_x == x && game->player_y == y)
+	if (game->player_x == x && game->player_y == y)
 		render_player(game, x, y);
-	else if (game->map[y][x] == '0')
-		put_image(game, game->floor_img, x, y);
 }
 
 void	render_move_count(t_game *game)

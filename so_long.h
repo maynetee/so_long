@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 20:52:21 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/21 23:57:54 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,40 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-
 typedef struct s_game
 {
-    int     fd;
-    int     width;
-    int     height;
-    int     player_x;
-    int     player_y;
-    int     count_p;
-    int     count_e;
-    int     count_c;
-    int     move_count;
-    int     frame_count;
-    char    **map;
-    void    *mlx;
-    void    *win;
-    void    *wall_img;
-    void    *floor_img;
-    void    *item_img_1;
-    void    *item_img_2;
-    void    *player_img_1;
-    void    *player_img_2;
-    void    *player_idle_1;
-    void    *player_idle_2;
-    void    *player_move_1;
-    void    *player_move_2;
-    void    *player_win;
-    void    *exit_img;
-    void    *exit_closed_img;
-    void    *exit_open_img;
-}   t_game;
+	int				fd;
+	int				width;
+	int				height;
+	int				player_x;
+	int				player_y;
+	int				count_p;
+	int				count_e;
+	int				count_c;
+	int				move_count;
+	int				frame_count;
+	int				scale_x;
+	int				scale_y;
+	int				tile_size;
 
-
-
+	char			**map;
+	void			*mlx;
+	void			*win;
+	void			*wall_img;
+	void			*floor_img;
+	void			*item_img_1;
+	void			*item_img_2;
+	void			*player_img_1;
+	void			*player_img_2;
+	void			*player_idle_1;
+	void			*player_idle_2;
+	void			*player_move_1;
+	void			*player_move_2;
+	void			*player_win;
+	void			*exit_img;
+	void			*exit_closed_img;
+	void			*exit_open_img;
+}					t_game;
 
 int					check_args(t_game *game, int ac, char **av);
 int					check_file_extension(char *filename);
