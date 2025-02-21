@@ -1,14 +1,13 @@
 NAME = so_long
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
-MLX_PATH = mlx_linux
-MLX_NAME = libmlx.a
-MLX_LIB = $(MLX_PATH)/$(MLX_NAME)
+LIBFT_PATH = ./Libft
+MLX_PATH = ./mlx_linux
 
-LIBFT_PATH = Libft
-LIBFT_NAME = libft.a
-LIBFT_LIB = $(LIBFT_PATH)/$(LIBFT_NAME)
+MLX_LIB = $(MLX_PATH)/libmlx.a
+LIBFT_LIB = $(LIBFT_PATH)/libft.a
+LIBRARIES = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 
 SRCS = main.c \
        file_checks.c \
@@ -17,35 +16,37 @@ SRCS = main.c \
        map_reader.c \
        map_parser.c \
        map_validator.c \
-       path_check.c
-
+       path_check.c \
+       player_movement.c \
+       window.c \
+       events.c
 
 OBJS = $(SRCS:.c=.o)
 
-INCLUDES = -I$(LIBFT_PATH)/includes -I$(MLX_PATH)
+INCLUDES = -I$(LIBFT_PATH) -I$(MLX_PATH)
 
-all: $(MLX_LIB) $(LIBFT_LIB) $(NAME)
-
-$(MLX_LIB):
-	@make -C $(MLX_PATH)
-
-$(LIBFT_LIB):
-	@make -C $(LIBFT_PATH)
+all: $(LIBFT_LIB) $(MLX_LIB) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBRARIES) -o $(NAME)
+
+$(LIBFT_LIB):
+	$(MAKE) -C $(LIBFT_PATH)
+
+$(MLX_LIB):
+	$(MAKE) -C $(MLX_PATH)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	@make -C $(MLX_PATH) clean
-	@make -C $(LIBFT_PATH) clean
+	$(MAKE) -C $(LIBFT_PATH) clean
+	$(MAKE) -C $(MLX_PATH) clean
 
 fclean: clean
 	rm -f $(NAME)
-	@make -C $(LIBFT_PATH) fclean
+	$(MAKE) -C $(LIBFT_PATH) fclean
 
 re: fclean all
 

@@ -12,16 +12,6 @@
 
 #include "so_long.h"
 
-static void	close_game(t_game *game)
-{
-	if (game->map)
-	{
-		free_map(game->map);
-		game->map = NULL;
-	}
-	exit(0);
-}
-
 static void	init_game_struct(t_game *game)
 {
 	game->map = NULL;
@@ -42,6 +32,7 @@ int	main(int ac, char **av)
 	init_game_struct(&game);
 	if (!check_args(&game, ac, av))
 		return (1);
+	init_window(&game);
 	close_game(&game);
 	return (0);
 }
