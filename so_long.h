@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_game
 {
@@ -56,5 +57,28 @@ int		close_game_wrapper(t_game *game);
 void	init_window(t_game *game);
 int		close_window(t_game *game);
 int		handle_keypress(int keycode, t_game *game);
+
+static inline int	free_lines_return(char **lines, int ret)
+{
+	int	i;
+
+	if (!lines)
+		return (ret);
+	i = 0;
+	while (lines[i])
+	{
+		free(lines[i]);
+		i++;
+	}
+	free(lines);
+	return (ret);
+}
+
+static inline int	free_line_return(char *line, int ret)
+{
+	if (line)
+		free(line);
+	return (ret);
+}
 
 #endif
