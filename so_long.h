@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 23:57:54 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:47:10 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_game
 	int				scale_x;
 	int				scale_y;
 	int				tile_size;
-
+	int				win_flag;
+	int				win_start_frame;
+	int				global_frame;
 	char			**map;
 	void			*mlx;
 	void			*win;

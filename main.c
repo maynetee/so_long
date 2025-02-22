@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:12 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 20:59:43 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:47:27 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ int	main(int ac, char **av)
 	if (!check_args(&game, ac, av))
 		return (1);
 	init_window(&game);
-	close_game(&game);
 	return (0);
 }

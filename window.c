@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 01:11:27 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 00:06:04 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:48:55 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,27 @@ void	display_message(t_game *game, char *message)
 	mlx_do_sync(game->mlx);
 }
 
+int	update_game(t_game *game)
+{
+	render_map(game);
+	game->global_frame++;
+	if (game->win_flag == 1)
+	{
+		if ((game->global_frame - game->win_start_frame) > 60)
+			close_game(game);
+	}
+	return (0);
+}
+
+
 void	init_window(t_game *game)
 {
 	setup_window(game);
 	load_images(game);
 	render_map(game);
 	mlx_hook(game->win, 17, 0, close_game_wrapper, game);
-	mlx_key_hook(game->win, handle_keypress, game);
+	mlx_hook(game->win, 2, 1L << 0, handle_keypress, game);
+	mlx_do_key_autorepeaton(game->mlx);
+	mlx_loop_hook(game->mlx, update_game, game);
 	mlx_loop(game->mlx);
 }

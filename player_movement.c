@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 23:57:39 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:56:13 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	check_victory(t_game *game, int new_x, int new_y)
 		system("afplay assets/victory.wav &");
 		display_message(game, "You Win!");
 		ft_printf("You Win!\n");
-		sleep(2);
-		close_game(game);
+		game->win_flag = 1;
+		game->win_start_frame = game->global_frame;
 	}
 }
 
@@ -117,13 +117,34 @@ void	render_tile(t_game *game, int x, int y)
 		render_player(game, x, y);
 }
 
+static void	draw_text_background(t_game *game, int start_x, int start_y, int w,
+		int h)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < h)
+	{
+		x = 0;
+		while (x < w)
+		{
+			mlx_pixel_put(game->mlx, game->win, start_x + x, start_y + y,
+				0x000000);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	render_move_count(t_game *game)
 {
 	char	*move_str;
 
 	move_str = ft_itoa(game->move_count);
-	mlx_string_put(game->mlx, game->win, 10, 10, 0xFFFFFF, "Mouvements : ");
-	mlx_string_put(game->mlx, game->win, 150, 10, 0xFFFFFF, move_str);
+	draw_text_background(game, 10, 10, 200, 20);
+	mlx_string_put(game->mlx, game->win, 15, 25, 0xFFFFFF, "Mouvements : ");
+	mlx_string_put(game->mlx, game->win, 155, 25, 0xFFFFFF, move_str);
 	free(move_str);
 }
 
