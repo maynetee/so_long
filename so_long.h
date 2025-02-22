@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 18:47:10 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:20:11 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ typedef struct s_game
 	int				win_flag;
 	int				win_start_frame;
 	int				global_frame;
+	int				text_x;
+	int				text_y;
+	int				text_color;
 	char			**map;
 	void			*mlx;
 	void			*win;

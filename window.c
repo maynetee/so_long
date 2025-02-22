@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 01:11:27 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 18:48:55 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:56:52 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	update_game(t_game *game)
 	}
 	return (0);
 }
-
 
 void	init_window(t_game *game)
 {

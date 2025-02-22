@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 18:56:13 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:35:48 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,36 +117,52 @@ void	render_tile(t_game *game, int x, int y)
 		render_player(game, x, y);
 }
 
-static void	draw_text_background(t_game *game, int start_x, int start_y, int w,
-		int h)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < h)
-	{
-		x = 0;
-		while (x < w)
-		{
-			mlx_pixel_put(game->mlx, game->win, start_x + x, start_y + y,
-				0x000000);
-			x++;
-		}
-		y++;
-	}
-}
-
 void	render_move_count(t_game *game)
 {
 	char	*move_str;
+	int		x;
+	int		y;
+	int		color_text;
+	int		color_bg;
+	int		bg_width;
+	int		bg_height;
 
 	move_str = ft_itoa(game->move_count);
-	draw_text_background(game, 10, 10, 200, 20);
-	mlx_string_put(game->mlx, game->win, 15, 25, 0xFFFFFF, "Mouvements : ");
-	mlx_string_put(game->mlx, game->win, 155, 25, 0xFFFFFF, move_str);
+
+	color_text = 0x8B0000;
+	color_bg = 0xF5DEB3;
+
+	bg_width = 200;
+	bg_height = 40;
+
+	x = (game->width * game->tile_size) / 2 - bg_width / 2;
+	y = 10;
+
+	int	x_start = x;
+	int	y_start = y;
+	int	x_end = x_start + bg_width;
+	int	y_end = y_start + bg_height;
+
+	int	i = x_start;
+	int	j = y_start;
+
+	while (j < y_end)
+	{
+		i = x_start;
+		while (i < x_end)
+		{
+			mlx_pixel_put(game->mlx, game->win, i, j, color_bg);
+			i++;
+		}
+		j++;
+	}
+
+	mlx_string_put(game->mlx, game->win, x + 30, y + 15, color_text, "Moves: ");
+	mlx_string_put(game->mlx, game->win, x + 130, y + 15, color_text, move_str);
+
 	free(move_str);
 }
+
 
 void	render_map(t_game *game)
 {

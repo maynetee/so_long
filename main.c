@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:12 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 18:47:27 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:41:53 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	init_game_struct(t_game *game)
 	game->count_c = 0;
 	game->move_count = 0;
 	game->frame_count = 0;
+	game->scale_x = 0;
+	game->scale_y = 0;
+	game->tile_size = 0;
+	game->mlx = NULL;
+	game->win = NULL;
 	game->wall_img = NULL;
 	game->floor_img = NULL;
 	game->item_img_1 = NULL;
@@ -35,8 +40,10 @@ void	init_game_struct(t_game *game)
 	game->player_win = NULL;
 	game->exit_closed_img = NULL;
 	game->exit_open_img = NULL;
+	game->global_frame = 0;
+	game->win_flag = 0;
+	game->win_start_frame = 0;
 }
-
 
 int	main(int ac, char **av)
 {
