@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   game_cleanup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 01:58:43 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/21 20:59:28 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:15:03 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	free_images(t_game *game)
+static void	free_wall_and_floor(t_game *game)
 {
 	if (game->wall_img)
 	{
@@ -24,6 +24,10 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->floor_img);
 		game->floor_img = NULL;
 	}
+}
+
+static void	free_item_images(t_game *game)
+{
 	if (game->item_img_1)
 	{
 		mlx_destroy_image(game->mlx, game->item_img_1);
@@ -34,6 +38,10 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->item_img_2);
 		game->item_img_2 = NULL;
 	}
+}
+
+static void	free_player_images(t_game *game)
+{
 	if (game->player_idle_1)
 	{
 		mlx_destroy_image(game->mlx, game->player_idle_1);
@@ -59,6 +67,10 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->player_win);
 		game->player_win = NULL;
 	}
+}
+
+static void	free_exit_images(t_game *game)
+{
 	if (game->exit_closed_img)
 	{
 		mlx_destroy_image(game->mlx, game->exit_closed_img);
@@ -71,34 +83,10 @@ void	free_images(t_game *game)
 	}
 }
 
-void	free_window_and_display(t_game *game)
+void	free_images(t_game *game)
 {
-	if (game->win)
-	{
-		mlx_destroy_window(game->mlx, game->win);
-		game->win = NULL;
-	}
-	if (game->mlx)
-	{
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		game->mlx = NULL;
-	}
-}
-
-void	free_map_and_exit(t_game *game)
-{
-	if (game->map)
-	{
-		free_map(game->map);
-		game->map = NULL;
-	}
-	exit(0);
-}
-
-void	close_game(t_game *game)
-{
-	free_images(game);
-	free_window_and_display(game);
-	free_map_and_exit(game);
+	free_wall_and_floor(game);
+	free_item_images(game);
+	free_player_images(game);
+	free_exit_images(game);
 }

@@ -7,7 +7,8 @@ MLX_PATH = ./mlx_linux
 
 MLX_LIB = $(MLX_PATH)/libmlx.a
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
-LIBRARIES = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
+LIBRARIES = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx \
+			-L/usr/lib -lXext -lX11 -lm -lz
 
 SRCS = main.c \
        file_checks.c \
@@ -17,11 +18,14 @@ SRCS = main.c \
        map_parser.c \
        map_validator.c \
        path_check.c \
-       player_movement.c \
-       window.c \
        events.c \
-       game_cleanup.c
-
+       game_cleanup.c \
+       close_helpers.c \
+       player_movement.c \
+       render_utils.c \
+       render_map.c \
+       window.c \
+       window_extra.c
 
 OBJS = $(SRCS:.c=.o)
 

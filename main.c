@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:12 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 19:41:53 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:10:26 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	init_game_struct(t_game *game)
+static void	init_game_values1(t_game *game)
 {
 	game->map = NULL;
 	game->width = 0;
@@ -29,6 +29,10 @@ void	init_game_struct(t_game *game)
 	game->tile_size = 0;
 	game->mlx = NULL;
 	game->win = NULL;
+}
+
+static void	init_game_values2(t_game *game)
+{
 	game->wall_img = NULL;
 	game->floor_img = NULL;
 	game->item_img_1 = NULL;
@@ -40,9 +44,15 @@ void	init_game_struct(t_game *game)
 	game->player_win = NULL;
 	game->exit_closed_img = NULL;
 	game->exit_open_img = NULL;
-	game->global_frame = 0;
 	game->win_flag = 0;
 	game->win_start_frame = 0;
+	game->global_frame = 0;
+}
+
+void	init_game_struct(t_game *game)
+{
+	init_game_values1(game);
+	init_game_values2(game);
 }
 
 int	main(int ac, char **av)
