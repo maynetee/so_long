@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:12 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 20:10:26 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:10:06 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	init_game_values2(t_game *game)
 	game->win_flag = 0;
 	game->win_start_frame = 0;
 	game->global_frame = 0;
+	game->enemies = NULL;
+	game->enemy_count = 0;
 }
 
 void	init_game_struct(t_game *game)

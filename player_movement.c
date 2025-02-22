@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 20:15:43 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:10:36 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	collect_item(t_game *game, int nx, int ny)
 	{
 		game->count_c--;
 		game->map[ny][nx] = '0';
-		system("afplay assets/item.wav &");
+		/* Son retiré */
 	}
 }
 
@@ -37,7 +37,6 @@ void	check_victory(t_game *game, int nx, int ny)
 {
 	if (game->map[ny][nx] == 'E' && game->count_c == 0)
 	{
-		system("afplay assets/victory.wav &");
 		display_message(game, "You Win!");
 		ft_printf("You Win!\n");
 		game->win_flag = 1;

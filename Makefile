@@ -25,7 +25,8 @@ SRCS = main.c \
        render_utils.c \
        render_map.c \
        window.c \
-       window_extra.c
+       window_extra.c \
+       enemy.c
 
 OBJS = $(SRCS:.c=.o)
 
