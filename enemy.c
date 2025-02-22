@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:00:22 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 21:11:08 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:33:23 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	check_enemy_collision(t_game *game)
 	}
 	return (0);
 }
-
+	
 int	update_game(t_game *game)
 {
 	game->global_frame++;
@@ -68,14 +68,16 @@ int	update_game(t_game *game)
 			close_game(game);
 		return (0);
 	}
-	if (game->global_frame % 30 == 0)
+	if (game->enemy_count > 0 && (game->global_frame % 30 == 0))
 		move_enemies(game);
-	if (check_enemy_collision(game))
+	if (game->enemy_count > 0 && check_enemy_collision(game))
 	{
 		ft_printf("Game Over\n");
 		display_message(game, "You Lost!");
 		game->win_flag = 2;
 		game->win_start_frame = game->global_frame;
 	}
+	mlx_clear_window(game->mlx, game->win);
+	render_map(game);
 	return (0);
 }

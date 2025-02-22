@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 21:10:36 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:33:42 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	collect_item(t_game *game, int nx, int ny)
 	{
 		game->count_c--;
 		game->map[ny][nx] = '0';
-		/* Son retiré */
 	}
 }
 
@@ -54,8 +53,5 @@ void	move_player(t_game *game, int new_x, int new_y)
 		check_victory(game, new_x, new_y);
 		game->player_x = new_x;
 		game->player_y = new_y;
-		mlx_clear_window(game->mlx, game->win);
-		mlx_do_sync(game->mlx);
-		render_map(game);
 	}
 }
