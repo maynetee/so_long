@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 20:10:05 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:26:49 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,40 +62,43 @@ typedef struct s_game
 
 typedef struct s_draw
 {
-	int	x;
-	int	y;
-	int	w;
-	int	h;
-	int	color;
+	int				x;
+	int				y;
+	int				w;
+	int				h;
+	int				color;
 }					t_draw;
 
-int		check_args(t_game *game, int ac, char **av);
-int		check_file_extension(char *filename);
-int		check_line_length(char *line, int expected_width);
-int		read_and_parse_map(t_game *game);
-int		allocate_map(t_game *game);
-int		check_rectangular(char **lines, int height, int width);
-int		validate_map_content(t_game *game);
-int		is_path_valid(t_game *game);
-int		parse_lines(char **lines, t_game *game);
-int		close_game_wrapper(t_game *game);
-int		handle_keypress(int keycode, t_game *game);
+int					check_args(t_game *game, int ac, char **av);
+int					check_file_extension(char *filename);
+int					check_line_length(char *line, int expected_width);
+int					read_and_parse_map(t_game *game);
+int					allocate_map(t_game *game);
+int					check_rectangular(char **lines, int height, int width);
+int					validate_map_content(t_game *game);
+int					is_path_valid(t_game *game);
+int					parse_lines(char **lines, t_game *game);
+int					close_game_wrapper(t_game *game);
+int					handle_keypress(int keycode, t_game *game);
+int					update_game(t_game *game);
 
-void	init_window(t_game *game);
-void	close_game(t_game *game);
-void	free_map(char **map);
-void	move_player(t_game *game, int new_x, int new_y);
-void	render_map(t_game *game);
-void	display_message(t_game *game, char *message);
-void	free_images(t_game *game);
-void	free_window_and_display(t_game *game);
-void	free_map_and_exit(t_game *game);
-void	init_game_struct(t_game *game);
-void	load_images(t_game *game);
-void	setup_window(t_game *game);
-void	render_move_count(t_game *game);
+void				init_window(t_game *game);
+void				close_game(t_game *game);
+void				free_map(char **map);
+void				move_player(t_game *game, int new_x, int new_y);
+void				render_map(t_game *game);
+void				display_message(t_game *game, char *message);
+void				free_images(t_game *game);
+void				free_window_and_display(t_game *game);
+void				free_map_and_exit(t_game *game);
+void				init_game_struct(t_game *game);
+void				load_images(t_game *game);
+void				setup_window(t_game *game);
+void				render_move_count(t_game *game);
+void				render_tile(t_game *game, int x, int y);
+void				render_move_count_bg(t_game *game, int x, int y);
 
-int		close_window(t_game *game);
+int					close_window(t_game *game);
 
 static inline int	free_lines_return(char **lines, int ret)
 {

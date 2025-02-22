@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:16:00 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 20:16:01 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:36:41 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	put_image(t_game *game, void *img, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->win,
-		img, x * game->tile_size, y * game->tile_size);
+	mlx_put_image_to_window(game->mlx, game->win, img, x * game->tile_size, y
+		* game->tile_size);
 }
 
 void	render_player(t_game *game, int x, int y)
