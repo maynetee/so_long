@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/24 19:02:52 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:53:26 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,58 +28,56 @@ typedef struct s_enemy
 	int				dir_y;
 }					t_enemy;
 
-typedef struct s_game
+typedef struct s_assets
 {
-	int				fd;
-	int				width;
-	int				height;
-	int				player_x;
-	int				player_y;
-	int				count_p;
-	int				count_e;
-	int				count_c;
-	int				move_count;
-	int				frame_count;
-	int				scale_x;
-	int				scale_y;
-	int				tile_size;
-	int				win_flag;
-	int				win_start_frame;
-	int				global_frame;
-	int				text_x;
-	int				text_y;
-	int				text_color;
-	char			**map;
-	void			*mlx;
-	void			*win;
-	void			*wall_img;
-	void			*floor_img;
-	void			*item_img_1;
-	void			*item_img_2;
-	void			*player_img_1;
-	void			*player_img_2;
+	void			*wall;
+	void			*floor;
+	void			*exit_open;
+	void			*exit_closed;
+	void			*item_1;
+	void			*item_2;
 	void			*player_idle_1;
 	void			*player_idle_2;
 	void			*player_move_1;
 	void			*player_move_2;
 	void			*player_win;
-	void			*exit_img;
-	void			*exit_closed_img;
-	void			*exit_open_img;
 	void			*player_dead;
 	void			*enemy_move_1;
 	void			*enemy_move_2;
+	void			*move_bg;
+}					t_assets;
+
+typedef struct s_player
+{
+	int				x;
+	int				y;
+	int				moves;
+}					t_player;
+
+typedef struct s_game
+{
+	int				fd;
+	int				width;
+	int				height;
+	int				count_p;
+	int				count_e;
+	int				count_c;
+	int				frame_count;
+	int				global_frame;
+	int				win_status;
+	int				win_start_frame;
+	int				tile_size;
+	char			**map;
+	void			*mlx;
+	void			*win;
+	t_assets		assets;
+	t_player		player;
 	t_enemy			*enemies;
 	int				enemy_count;
-	void			*move_bg_img;
-	int				win_w;
-	int				win_h;
-	void			*end_screen;
 }					t_game;
 
 int					check_args(t_game *game, int ac, char **av);
 int					check_file_extension(char *filename);
-int					check_line_length(char *line, int expected_width);
 int					read_and_parse_map(t_game *game);
 int					allocate_map(t_game *game);
 int					check_rectangular(char **lines, int height, int width);
@@ -96,10 +94,6 @@ void				free_map(char **map);
 void				move_player(t_game *game, int new_x, int new_y);
 void				render_map(t_game *game);
 void				render_move_count(t_game *game);
-void				render_move_count_bg(t_game *game);
-int					close_window(t_game *game);
-void				render_enemies(t_game *game);
-void				render_player(t_game *game);
 void				create_move_count_bg_image(t_game *game);
 void				display_message(t_game *game, char *message);
 void				free_images(t_game *game);

@@ -32,19 +32,14 @@ void	create_move_count_bg_image(t_game *game)
 	int		endian;
 	char	*addr;
 
-	game->move_bg_img = mlx_new_image(game->mlx, 100, 40);
-	if (!game->move_bg_img)
+	game->assets.move_bg = mlx_new_image(game->mlx, 100, 40);
+	if (!game->assets.move_bg)
 		return ;
-	addr = mlx_get_data_addr(game->move_bg_img, &bpp, &sl, &endian);
+	addr = mlx_get_data_addr(game->assets.move_bg, &bpp, &sl, &endian);
 	row = 0;
 	while (row < 40)
 	{
 		draw_bg_row(addr, row, sl, bpp);
 		row++;
 	}
-}
-
-void	display_message(t_game *game, char *message)
-{
-	mlx_string_put(game->mlx, game->win, 10, 60, 0xFFFFFF, message);
 }

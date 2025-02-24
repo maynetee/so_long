@@ -50,8 +50,8 @@ static void	update_game_counts(t_game *game, char c, int x, int y)
 		else
 		{
 			game->count_p++;
-			game->player_x = x;
-			game->player_y = y;
+			game->player.x = x;
+			game->player.y = y;
 		}
 	}
 	else if (c == 'E')

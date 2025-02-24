@@ -12,49 +12,56 @@
 
 #include "so_long.h"
 
-static void	init_game_values1(t_game *game)
+static void	init_assets(t_game *game)
+{
+	game->assets.wall = NULL;
+	game->assets.floor = NULL;
+	game->assets.exit_open = NULL;
+	game->assets.exit_closed = NULL;
+	game->assets.item_1 = NULL;
+	game->assets.item_2 = NULL;
+	game->assets.player_idle_1 = NULL;
+	game->assets.player_idle_2 = NULL;
+	game->assets.player_move_1 = NULL;
+	game->assets.player_move_2 = NULL;
+	game->assets.player_win = NULL;
+	game->assets.player_dead = NULL;
+	game->assets.enemy_move_1 = NULL;
+	game->assets.enemy_move_2 = NULL;
+	game->assets.move_bg = NULL;
+}
+
+static void	init_player(t_game *game)
+{
+	game->player.x = 0;
+	game->player.y = 0;
+	game->player.moves = 0;
+}
+
+static void	init_game_values(t_game *game)
 {
 	game->map = NULL;
 	game->width = 0;
 	game->height = 0;
-	game->player_x = 0;
-	game->player_y = 0;
 	game->count_p = 0;
 	game->count_e = 0;
 	game->count_c = 0;
-	game->move_count = 0;
 	game->frame_count = 0;
-	game->scale_x = 0;
-	game->scale_y = 0;
+	game->global_frame = 0;
+	game->win_status = 0;
+	game->win_start_frame = 0;
 	game->tile_size = 0;
 	game->mlx = NULL;
 	game->win = NULL;
-}
-
-static void	init_game_values2(t_game *game)
-{
-	game->wall_img = NULL;
-	game->floor_img = NULL;
-	game->item_img_1 = NULL;
-	game->item_img_2 = NULL;
-	game->player_idle_1 = NULL;
-	game->player_idle_2 = NULL;
-	game->player_move_1 = NULL;
-	game->player_move_2 = NULL;
-	game->player_win = NULL;
-	game->exit_closed_img = NULL;
-	game->exit_open_img = NULL;
-	game->win_flag = 0;
-	game->win_start_frame = 0;
-	game->global_frame = 0;
 	game->enemies = NULL;
 	game->enemy_count = 0;
+	init_assets(game);
+	init_player(game);
 }
 
 void	init_game_struct(t_game *game)
 {
-	init_game_values1(game);
-	init_game_values2(game);
+	init_game_values(game);
 }
 
 int	main(int ac, char **av)

@@ -17,8 +17,11 @@ int	handle_keypress(int keycode, t_game *game)
 	int	x;
 	int	y;
 
-	x = game->player_x;
-	y = game->player_y;
+	if (game->win_status)
+		return (0);
+		
+	x = game->player.x;
+	y = game->player.y;
 	if (keycode == 65307)
 		close_game(game);
 	else if (keycode == 119)

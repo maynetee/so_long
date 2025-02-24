@@ -85,8 +85,8 @@ static int	check_reachable(char **map, t_game *game)
 
 int	is_path_valid(t_game *game)
 {
-	char	**map_copy;
-	int		result;
+	char **map_copy;
+	int result;
 
 	map_copy = copy_map(game);
 	if (!map_copy)
@@ -94,7 +94,7 @@ int	is_path_valid(t_game *game)
 		ft_printf("Error\nFailed to allocate map copy\n");
 		return (0);
 	}
-	flood_fill(map_copy, game->player_x, game->player_y, game);
+	flood_fill(map_copy, game->player.x, game->player.y, game);
 	result = check_reachable(map_copy, game);
 	free_map_copy(map_copy, game->height);
 	return (result);

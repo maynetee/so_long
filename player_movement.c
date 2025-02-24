@@ -36,22 +36,28 @@ void	check_victory(t_game *game, int nx, int ny)
 {
 	if (game->map[ny][nx] == 'E' && game->count_c == 0)
 	{
-		display_message(game, "You Win!");
 		ft_printf("You Win!\n");
-		game->win_flag = 1;
+		game->win_status = 1;
 		game->win_start_frame = game->global_frame;
 	}
 }
 
 void	move_player(t_game *game, int new_x, int new_y)
 {
+	if (game->win_status)
+		return ;
+	
 	if (can_move_to(game, new_x, new_y))
 	{
-		game->move_count++;
-		ft_printf("Mouvements : %d\n", game->move_count);
+		game->player.x = new_x;
+		game->player.y = new_y;
+		game->player.moves++;
+		
+		ft_printf("Mouvements : %d\n", game->player.moves);
+		
 		collect_item(game, new_x, new_y);
 		check_victory(game, new_x, new_y);
-		game->player_x = new_x;
-		game->player_y = new_y;
+		
+		render_map(game);
 	}
 }

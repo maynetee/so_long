@@ -20,14 +20,13 @@ SRCS = main.c \
        path_check.c \
        events.c \
        game_cleanup.c \
-       close_helpers.c \
        player_movement.c \
-       render_utils.c \
        render_map.c \
+       render_utils.c \
        window.c \
        window_extra.c \
-       enemy.c
-
+       enemy.c 
+       
 OBJS = $(SRCS:.c=.o)
 
 INCLUDES = -I$(LIBFT_PATH) -I$(MLX_PATH)

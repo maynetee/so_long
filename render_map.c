@@ -14,80 +14,88 @@
 
 static void	render_tile(t_game *game, int x, int y)
 {
+	int	pos_x;
+	int	pos_y;
+
+	pos_x = x * game->tile_size;
+	pos_y = y * game->tile_size;
+	mlx_put_image_to_window(game->mlx, game->win, game->assets.floor, pos_x,
+		pos_y);
 	if (game->map[y][x] == '1')
-		mlx_put_image_to_window(game->mlx, game->win, game->wall_img, x
-			* game->tile_size, y * game->tile_size);
-	else
-		mlx_put_image_to_window(game->mlx, game->win, game->floor_img, x
-			* game->tile_size, y * game->tile_size);
-	if (game->map[y][x] == 'C')
+		mlx_put_image_to_window(game->mlx, game->win, game->assets.wall, pos_x,
+			pos_y);
+	else if (game->map[y][x] == 'C')
 	{
 		if ((game->global_frame / 30) % 2 == 0)
-			mlx_put_image_to_window(game->mlx, game->win, game->item_img_1, x
-				* game->tile_size, y * game->tile_size);
+			mlx_put_image_to_window(game->mlx, game->win, game->assets.item_1,
+				pos_x, pos_y);
 		else
-			mlx_put_image_to_window(game->mlx, game->win, game->item_img_2, x
-				* game->tile_size, y * game->tile_size);
+			mlx_put_image_to_window(game->mlx, game->win, game->assets.item_2,
+				pos_x, pos_y);
 	}
-	if (game->map[y][x] == 'E')
+	else if (game->map[y][x] == 'E')
 	{
 		if (game->count_c == 0)
-			mlx_put_image_to_window(game->mlx, game->win, game->exit_open_img, x
-				* game->tile_size, y * game->tile_size);
+			mlx_put_image_to_window(game->mlx, game->win,
+				game->assets.exit_open, pos_x, pos_y);
 		else
-			mlx_put_image_to_window(game->mlx, game->win, game->exit_closed_img,
-				x * game->tile_size, y * game->tile_size);
+			mlx_put_image_to_window(game->mlx, game->win,
+				game->assets.exit_closed, pos_x, pos_y);
 	}
 }
 
-static void	render_enemies_static(t_game *game)
+static void	render_player(t_game *game)
+{
+	void	*player_img;
+	int		pos_x;
+	int		pos_y;
+
+	pos_x = game->player.x * game->tile_size;
+	pos_y = game->player.y * game->tile_size;
+	if (game->win_status == 1)
+		player_img = game->assets.player_win;
+	else if (game->win_status == 2)
+		player_img = game->assets.player_dead;
+	else
+	{
+		if ((game->global_frame / 30) % 2 == 0)
+			player_img = game->assets.player_idle_1;
+		else
+			player_img = game->assets.player_idle_2;
+	}
+	if (player_img)
+		mlx_put_image_to_window(game->mlx, game->win, player_img, pos_x, pos_y);
+}
+
+static void	render_enemies(t_game *game)
 {
 	int		i;
 	void	*enemy_img;
+	int		pos_x;
+	int		pos_y;
 
 	i = 0;
 	while (i < game->enemy_count)
 	{
+		pos_x = game->enemies[i].x * game->tile_size;
+		pos_y = game->enemies[i].y * game->tile_size;
 		if ((game->global_frame / 30) % 2 == 0)
-			enemy_img = game->enemy_move_1;
+			enemy_img = game->assets.enemy_move_1;
 		else
-			enemy_img = game->enemy_move_2;
-		mlx_put_image_to_window(game->mlx, game->win, enemy_img,
-			game->enemies[i].x * game->tile_size, game->enemies[i].y
-			* game->tile_size);
+			enemy_img = game->assets.enemy_move_2;
+		if (enemy_img)
+			mlx_put_image_to_window(game->mlx, game->win, enemy_img, pos_x,
+				pos_y);
 		i++;
 	}
 }
 
-static void	render_player_static(t_game *game)
-{
-	void	*player_img;
-
-	if (game->win_flag == 1)
-		player_img = game->player_win;
-	else if (game->win_flag == 2)
-		player_img = game->player_dead;
-	else
-	{
-		if ((game->global_frame / 30) % 2 == 0)
-			player_img = game->player_idle_1;
-		else
-			player_img = game->player_idle_2;
-	}
-	mlx_put_image_to_window(game->mlx, game->win, player_img, game->player_x
-		* game->tile_size, game->player_y * game->tile_size);
-}
-
-static void	render_entities(t_game *game)
-{
-	render_enemies_static(game);
-	render_player_static(game);
-}
-
 void	render_map(t_game *game)
 {
-	int	x;
-	int	y;
+	int x;
+	int y;
+
+	mlx_clear_window(game->mlx, game->win);
 
 	y = 0;
 	while (y < game->height)
@@ -100,6 +108,10 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
-	render_entities(game);
+
+	render_enemies(game);
+	render_player(game);
 	render_move_count(game);
+
+	mlx_do_sync(game->mlx);
 }
