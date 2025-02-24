@@ -58,13 +58,13 @@ static int	check_enemy_collision(t_game *game)
 	}
 	return (0);
 }
-	
+
 int	update_game(t_game *game)
 {
 	game->global_frame++;
 	if (game->win_flag == 1 || game->win_flag == 2)
 	{
-		if (game->global_frame - game->win_start_frame > 60)
+		if (game->global_frame - game->win_start_frame > 240)
 			close_game(game);
 		return (0);
 	}

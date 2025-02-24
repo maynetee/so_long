@@ -14,7 +14,8 @@
 
 static int	is_valid_map_char(char c)
 {
-	return (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P' || c == 'X');
+	return (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P'
+		|| c == 'X');
 }
 
 static void	store_enemy(t_game *game, int x, int y)

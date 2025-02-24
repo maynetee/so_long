@@ -71,6 +71,7 @@ typedef struct s_game
 	void			*enemy_move_2;
 	t_enemy			*enemies;
 	int				enemy_count;
+	void			*move_bg_img;
 }					t_game;
 
 typedef struct s_draw
@@ -93,10 +94,8 @@ int					is_path_valid(t_game *game);
 int					parse_lines(char **lines, t_game *game);
 int					close_game_wrapper(t_game *game);
 int					handle_keypress(int keycode, t_game *game);
-
 int					update_game(t_game *game);
 void				move_enemies(t_game *game);
-
 void				init_window(t_game *game);
 void				close_game(t_game *game);
 void				free_map(char **map);
@@ -111,8 +110,11 @@ void				load_images(t_game *game);
 void				setup_window(t_game *game);
 void				render_move_count(t_game *game);
 void				render_tile(t_game *game, int x, int y);
-void				render_move_count_bg(t_game *game, int x, int y);
+void				render_move_count_bg(t_game *game);
 int					close_window(t_game *game);
+void				render_enemies(t_game *game);
+void				render_player(t_game *game);
+void				create_move_count_bg_image(t_game *game);
 
 static inline int	free_lines_return(char **lines, int ret)
 {

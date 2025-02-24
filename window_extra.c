@@ -12,30 +12,40 @@
 
 #include "so_long.h"
 
-void    display_message(t_game *game, char *message)
+void	create_move_count_bg_image(t_game *game)
 {
-    int x;
-    int y;
-    int color;
+	int		width;
+	int		height;
+	char	*addr;
+	int		bpp;
+	int		sl;
+	int		endian;
+	int		x;
+	int		y;
 
-    x = 10;
-    y = 50;
-    color = 0xFFFFFF;
-    if (!game->win_flag)
-        mlx_string_put(game->mlx, game->win, x, y, color, message);
+	width = 100;
+	height = 40;
+	game->move_bg_img = mlx_new_image(game->mlx, width, height);
+	if (!game->move_bg_img)
+		return ;
+	addr = mlx_get_data_addr(game->move_bg_img, &bpp, &sl, &endian);
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			*(unsigned int *)(addr + (y * sl + x * (bpp / 8))) = 0x000000;
+			x++;
+		}
+		y++;
+	}
 }
 
-/*
- * Définition unique de render_move_count_bg
- * Evite le multiple definition.
- */
-void    render_move_count_bg(t_game *game, int x, int y)
+void	display_message(t_game *game, char *message)
 {
-    (void)game;
-    (void)x;
-    (void)y;
-    /*
-     * Implémentez si vous voulez un rectangle d'arrière-plan
-     * pour le compteur. Sinon laissez vide.
-     */
+	int	color;
+
+	color = 0xFFFFFF;
+	mlx_string_put(game->mlx, game->win, 10, 60, color, message);
 }

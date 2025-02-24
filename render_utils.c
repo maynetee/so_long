@@ -12,17 +12,24 @@
 
 #include "so_long.h"
 
-void    render_move_count(t_game *game)
+void	render_move_count_bg(t_game *game)
 {
-    char    *count_str;
-    int     color;
-    render_move_count_bg(game, 0, 0);
+	if (!game->move_bg_img)
+		return ;
+	mlx_put_image_to_window(game->mlx, game->win, game->move_bg_img, 0, 0);
+}
 
-    count_str = ft_itoa(game->move_count);
-    if (!count_str)
-        return ;
-    color = 0xFFFFFF;
-    mlx_string_put(game->mlx, game->win, 10, 20, color, "Moves:");
-    mlx_string_put(game->mlx, game->win, 60, 20, color, count_str);
-    free(count_str);
+void	render_move_count(t_game *game)
+{
+	char	*count_str;
+	int		color;
+
+	render_move_count_bg(game);
+	count_str = ft_itoa(game->move_count);
+	if (!count_str)
+		return ;
+	color = 0xFFFFFF;
+	mlx_string_put(game->mlx, game->win, 10, 20, color, "Moves:");
+	mlx_string_put(game->mlx, game->win, 60, 20, color, count_str);
+	free(count_str);
 }
