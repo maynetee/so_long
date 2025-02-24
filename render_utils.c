@@ -35,12 +35,12 @@ void	render_move_count(t_game *game)
 	int		color;
 
 	if (game->assets.move_bg)
-		blit_img(game, game->assets.move_bg, 0, 0);
+		mlx_put_image_to_window(game->mlx, game->win, game->assets.move_bg, 0, 0);
 	count_str = ft_itoa(game->player.moves);
 	if (!count_str)
 		return ;
 	color = 0xFFFFFF;
 	mlx_string_put(game->mlx, game->win, 10, 20, color, "Moves:");
-	mlx_string_put(game->mlx, game->win, 60, 20, color, count_str);
+	mlx_string_put(game->mlx, game->win, 80, 20, color, count_str);
 	free(count_str);
 }
