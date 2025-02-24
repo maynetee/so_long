@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:17:28 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 21:53:26 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:02:52 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ typedef struct s_game
 	t_enemy			*enemies;
 	int				enemy_count;
 	void			*move_bg_img;
+	int				win_w;
+	int				win_h;
+	void			*end_screen;
 }					t_game;
 
 int					check_args(t_game *game, int ac, char **av);

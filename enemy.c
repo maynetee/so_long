@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:00:22 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 21:33:23 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:01:51 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	move_enemy(t_game *game, int i)
 	if (nx < 0 || nx >= game->width || ny < 0 || ny >= game->height
 		|| game->map[ny][nx] == '1')
 	{
-		game->enemies[i].dir_x = -game->enemies[i].dir_x;
-		game->enemies[i].dir_y = -game->enemies[i].dir_y;
+		game->enemies[i].dir_x *= -1;
+		game->enemies[i].dir_y *= -1;
 	}
 	else
 	{
@@ -62,8 +62,10 @@ static int	check_enemy_collision(t_game *game)
 int	update_game(t_game *game)
 {
 	game->global_frame++;
-	if (game->win_flag == 1 || game->win_flag == 2)
+	if (game->win_flag)
 	{
+		mlx_clear_window(game->mlx, game->win);
+		mlx_put_image_to_window(game->mlx, game->win, game->end_screen, 0, 0);
 		if (game->global_frame - game->win_start_frame > 240)
 			close_game(game);
 		return (0);
@@ -72,9 +74,9 @@ int	update_game(t_game *game)
 		move_enemies(game);
 	if (game->enemy_count > 0 && check_enemy_collision(game))
 	{
-		ft_printf("Game Over\n");
-		display_message(game, "You Lost!");
-		game->win_flag = 2;
+		game->end_screen = mlx_xpm_file_to_image(game->mlx,
+				"assets/player_dead.xpm", &game->win_w, &game->win_h);
+		game->win_flag = 1;
 		game->win_start_frame = game->global_frame;
 	}
 	mlx_clear_window(game->mlx, game->win);

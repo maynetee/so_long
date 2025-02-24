@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 01:11:27 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/24 18:35:59 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:01:36 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ static void	load_images_part1(t_game *game)
 	int	w;
 	int	h;
 
-	game->wall_img = mlx_xpm_file_to_image(game->mlx, "assets/wall.xpm", &w,
-			&h);
-	game->floor_img = mlx_xpm_file_to_image(game->mlx, "assets/floor.xpm", &w,
-			&h);
+	game->wall_img = mlx_xpm_file_to_image(game->mlx, "assets/wall.xpm", &w, &h);
+	game->floor_img = mlx_xpm_file_to_image(game->mlx, "assets/floor.xpm", &w, &h);
 	game->exit_closed_img = mlx_xpm_file_to_image(game->mlx,
 			"assets/exit_closed.xpm", &w, &h);
 	game->exit_open_img = mlx_xpm_file_to_image(game->mlx,
@@ -53,56 +51,43 @@ void	load_images(t_game *game)
 
 	load_images_part1(game);
 	load_images_part2(game);
-	game->player_win = mlx_xpm_file_to_image(game->mlx, "assets/player_win.xpm",
-			&w, &h);
-	game->player_dead = mlx_xpm_file_to_image(game->mlx,
-			"assets/player_dead.xpm", &w, &h);
-	game->enemy_move_1 = mlx_xpm_file_to_image(game->mlx,
-			"assets/enemy_move_1.xpm", &w, &h);
-	game->enemy_move_2 = mlx_xpm_file_to_image(game->mlx,
-			"assets/enemy_move_2.xpm", &w, &h);
+	game->end_screen = mlx_xpm_file_to_image(game->mlx, "assets/player_win.xpm",
+			&game->win_w, &game->win_h);
 	if (!game->wall_img || !game->floor_img || !game->item_img_1
 		|| !game->item_img_2 || !game->player_idle_1 || !game->player_idle_2
-		|| !game->player_move_1 || !game->player_move_2 || !game->player_win
-		|| !game->exit_closed_img || !game->exit_open_img || !game->player_dead
-		|| !game->enemy_move_1 || !game->enemy_move_2)
-	{
-		ft_printf("Error\nFailed to load images\n");
+		|| !game->player_move_1 || !game->player_move_2 || !game->end_screen
+		|| !game->exit_closed_img || !game->exit_open_img)
 		close_game(game);
-	}
 }
 
 void	setup_window(t_game *game)
 {
+	int	max_width;
+	int	max_height;
+
+	max_width = 1920;
+	max_height = 1080;
 	game->mlx = mlx_init();
 	if (!game->mlx)
-	{
-		ft_printf("Error\nFailed to init MiniLibX\n");
 		close_game(game);
-	}
-	game->win = mlx_new_window(game->mlx, 1280, 704, "So_Long");
-	if (!game->win)
-	{
-		ft_printf("Error\nFailed to create window\n");
-		close_game(game);
-	}
-	game->scale_x = 1280 / game->width;
-	game->scale_y = 720 / game->height;
-	if (game->scale_x < game->scale_y)
-		game->tile_size = game->scale_x;
-	else
+	game->scale_x = max_width / game->width;
+	game->scale_y = max_height / game->height;
+	game->tile_size = game->scale_x;
+	if (game->scale_y < game->tile_size)
 		game->tile_size = game->scale_y;
+	game->win_w = game->width * game->tile_size;
+	game->win_h = game->height * game->tile_size;
+	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "So_Long");
+	if (!game->win)
+		close_game(game);
 }
 
 void	init_window(t_game *game)
 {
 	setup_window(game);
 	load_images(game);
-	create_move_count_bg_image(game);
-	render_map(game);
 	mlx_hook(game->win, 17, 0, close_game_wrapper, game);
 	mlx_hook(game->win, 2, 1L << 0, handle_keypress, game);
-	mlx_do_key_autorepeaton(game->mlx);
 	mlx_loop_hook(game->mlx, update_game, game);
 	mlx_loop(game->mlx);
 }
