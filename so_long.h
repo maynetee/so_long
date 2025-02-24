@@ -74,15 +74,6 @@ typedef struct s_game
 	void			*move_bg_img;
 }					t_game;
 
-typedef struct s_draw
-{
-	int				x;
-	int				y;
-	int				w;
-	int				h;
-	int				color;
-}					t_draw;
-
 int					check_args(t_game *game, int ac, char **av);
 int					check_file_extension(char *filename);
 int					check_line_length(char *line, int expected_width);
@@ -101,6 +92,12 @@ void				close_game(t_game *game);
 void				free_map(char **map);
 void				move_player(t_game *game, int new_x, int new_y);
 void				render_map(t_game *game);
+void				render_move_count(t_game *game);
+void				render_move_count_bg(t_game *game);
+int					close_window(t_game *game);
+void				render_enemies(t_game *game);
+void				render_player(t_game *game);
+void				create_move_count_bg_image(t_game *game);
 void				display_message(t_game *game, char *message);
 void				free_images(t_game *game);
 void				free_window_and_display(t_game *game);
@@ -108,13 +105,6 @@ void				free_map_and_exit(t_game *game);
 void				init_game_struct(t_game *game);
 void				load_images(t_game *game);
 void				setup_window(t_game *game);
-void				render_move_count(t_game *game);
-void				render_tile(t_game *game, int x, int y);
-void				render_move_count_bg(t_game *game);
-int					close_window(t_game *game);
-void				render_enemies(t_game *game);
-void				render_player(t_game *game);
-void				create_move_count_bg_image(t_game *game);
 
 static inline int	free_lines_return(char **lines, int ret)
 {

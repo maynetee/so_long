@@ -12,39 +12,97 @@
 
 #include "so_long.h"
 
-static void	draw_bg_row(char *addr, int row, int sl, int bpp)
+static void	load_images_part1(t_game *game)
 {
-	int	x;
+	int	w;
+	int	h;
 
-	x = 0;
-	while (x < 100)
+	game->wall_img = mlx_xpm_file_to_image(game->mlx, "assets/wall.xpm", &w,
+			&h);
+	game->floor_img = mlx_xpm_file_to_image(game->mlx, "assets/floor.xpm", &w,
+			&h);
+	game->exit_closed_img = mlx_xpm_file_to_image(game->mlx,
+			"assets/exit_closed.xpm", &w, &h);
+	game->exit_open_img = mlx_xpm_file_to_image(game->mlx,
+			"assets/exit_open.xpm", &w, &h);
+	game->item_img_1 = mlx_xpm_file_to_image(game->mlx, "assets/item_1.xpm", &w,
+			&h);
+}
+
+static void	load_images_part2(t_game *game)
+{
+	int	w;
+	int	h;
+
+	game->item_img_2 = mlx_xpm_file_to_image(game->mlx, "assets/item_2.xpm", &w,
+			&h);
+	game->player_idle_1 = mlx_xpm_file_to_image(game->mlx,
+			"assets/player_idle_1.xpm", &w, &h);
+	game->player_idle_2 = mlx_xpm_file_to_image(game->mlx,
+			"assets/player_idle_2.xpm", &w, &h);
+	game->player_move_1 = mlx_xpm_file_to_image(game->mlx,
+			"assets/player_move_1.xpm", &w, &h);
+	game->player_move_2 = mlx_xpm_file_to_image(game->mlx,
+			"assets/player_move_2.xpm", &w, &h);
+}
+
+void	load_images(t_game *game)
+{
+	int	w;
+	int	h;
+
+	load_images_part1(game);
+	load_images_part2(game);
+	game->player_win = mlx_xpm_file_to_image(game->mlx, "assets/player_win.xpm",
+			&w, &h);
+	game->player_dead = mlx_xpm_file_to_image(game->mlx,
+			"assets/player_dead.xpm", &w, &h);
+	game->enemy_move_1 = mlx_xpm_file_to_image(game->mlx,
+			"assets/enemy_move_1.xpm", &w, &h);
+	game->enemy_move_2 = mlx_xpm_file_to_image(game->mlx,
+			"assets/enemy_move_2.xpm", &w, &h);
+	if (!game->wall_img || !game->floor_img || !game->item_img_1
+		|| !game->item_img_2 || !game->player_idle_1 || !game->player_idle_2
+		|| !game->player_move_1 || !game->player_move_2 || !game->player_win
+		|| !game->exit_closed_img || !game->exit_open_img || !game->player_dead
+		|| !game->enemy_move_1 || !game->enemy_move_2)
 	{
-		*(unsigned int *)(addr + (row * sl + x * (bpp / 8))) = 0x000000;
-		x++;
+		ft_printf("Error\nFailed to load images\n");
+		close_game(game);
 	}
 }
 
-void	create_move_count_bg_image(t_game *game)
+void	setup_window(t_game *game)
 {
-	int		row;
-	int		bpp;
-	int		sl;
-	int		endian;
-	char	*addr;
-
-	game->move_bg_img = mlx_new_image(game->mlx, 100, 40);
-	if (!game->move_bg_img)
-		return ;
-	addr = mlx_get_data_addr(game->move_bg_img, &bpp, &sl, &endian);
-	row = 0;
-	while (row < 40)
+	game->mlx = mlx_init();
+	if (!game->mlx)
 	{
-		draw_bg_row(addr, row, sl, bpp);
-		row++;
+		ft_printf("Error\nFailed to init MiniLibX\n");
+		close_game(game);
 	}
+	game->win = mlx_new_window(game->mlx, 1280, 704, "So_Long");
+	if (!game->win)
+	{
+		ft_printf("Error\nFailed to create window\n");
+		close_game(game);
+	}
+	game->scale_x = 1280 / game->width;
+	game->scale_y = 720 / game->height;
+	if (game->scale_x < game->scale_y)
+		game->tile_size = game->scale_x;
+	else
+		game->tile_size = game->scale_y;
 }
 
-void	display_message(t_game *game, char *message)
+void	init_window(t_game *game)
 {
-	mlx_string_put(game->mlx, game->win, 10, 60, 0xFFFFFF, message);
+	setup_window(game);
+	load_images(game);
+	create_move_count_bg_image(game);
+	render_map(game);
+	mlx_hook(game->win, 17, 0, close_game_wrapper, game);
+	mlx_hook(game->win, 2, 1L << 0, handle_keypress, game);
+	mlx_do_key_autorepeaton(game->mlx);
+	mlx_loop_hook(game->mlx, update_game, game);
+	mlx_loop(game->mlx);
 }
