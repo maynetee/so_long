@@ -19,7 +19,6 @@ int	handle_keypress(int keycode, t_game *game)
 
 	if (game->win_status)
 		return (0);
-		
 	x = game->player.x;
 	y = game->player.y;
 	if (keycode == 65307)

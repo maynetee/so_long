@@ -62,7 +62,6 @@ static int	check_enemy_collision(t_game *game)
 int	update_game(t_game *game)
 {
 	game->global_frame++;
-
 	if (game->win_status)
 	{
 		if (game->global_frame - game->win_start_frame > 240)
@@ -72,7 +71,6 @@ int	update_game(t_game *game)
 	{
 		if (game->enemy_count > 0 && (game->global_frame % 30 == 0))
 			move_enemies(game);
-
 		if (game->enemy_count > 0 && check_enemy_collision(game))
 		{
 			ft_printf("Game Over\n");
@@ -80,8 +78,6 @@ int	update_game(t_game *game)
 			game->win_start_frame = game->global_frame;
 		}
 	}
-
 	render_map(game);
-
 	return (0);
 }

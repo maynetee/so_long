@@ -74,6 +74,11 @@ typedef struct s_game
 	t_player		player;
 	t_enemy			*enemies;
 	int				enemy_count;
+	void			*buffer;
+	char			*buffer_addr;
+	int				buffer_bpp;
+	int				buffer_size_line;
+	int				buffer_endian;
 }					t_game;
 
 int					check_args(t_game *game, int ac, char **av);

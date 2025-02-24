@@ -11,44 +11,70 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <string.h>
 
-static void	render_tile(t_game *game, int x, int y)
+static void	blit_img(t_game *game, void *src_img, int dest_x, int dest_y)
+{
+	char	*src;
+	int		src_bpp;
+	int		src_sl;
+	int		src_endian;
+	int		x;
+	int		y;
+	int		dest_offset;
+	int		src_offset;
+	int		ts;
+
+	src = mlx_get_data_addr(src_img, &src_bpp, &src_sl, &src_endian);
+	ts = game->tile_size;
+	y = 0;
+	while (y < ts)
+	{
+		x = 0;
+		while (x < ts)
+		{
+			src_offset = y * src_sl + x * (src_bpp / 8);
+			dest_offset = (dest_y + y) * game->buffer_size_line + (dest_x + x)
+				* (game->buffer_bpp / 8);
+			*((unsigned int *)(game->buffer_addr
+						+ dest_offset)) = *((unsigned int *)(src + src_offset));
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	render_tile_buffer(t_game *game, int x, int y)
 {
 	int	pos_x;
 	int	pos_y;
 
 	pos_x = x * game->tile_size;
 	pos_y = y * game->tile_size;
-	mlx_put_image_to_window(game->mlx, game->win, game->assets.floor, pos_x,
-		pos_y);
+	blit_img(game, game->assets.floor, pos_x, pos_y);
 	if (game->map[y][x] == '1')
-		mlx_put_image_to_window(game->mlx, game->win, game->assets.wall, pos_x,
-			pos_y);
+		blit_img(game, game->assets.wall, pos_x, pos_y);
 	else if (game->map[y][x] == 'C')
 	{
 		if ((game->global_frame / 30) % 2 == 0)
-			mlx_put_image_to_window(game->mlx, game->win, game->assets.item_1,
-				pos_x, pos_y);
+			blit_img(game, game->assets.item_1, pos_x, pos_y);
 		else
-			mlx_put_image_to_window(game->mlx, game->win, game->assets.item_2,
-				pos_x, pos_y);
+			blit_img(game, game->assets.item_2, pos_x, pos_y);
 	}
 	else if (game->map[y][x] == 'E')
 	{
 		if (game->count_c == 0)
-			mlx_put_image_to_window(game->mlx, game->win,
-				game->assets.exit_open, pos_x, pos_y);
+			blit_img(game, game->assets.exit_open, pos_x, pos_y);
 		else
-			mlx_put_image_to_window(game->mlx, game->win,
-				game->assets.exit_closed, pos_x, pos_y);
+			blit_img(game, game->assets.exit_closed, pos_x, pos_y);
 	}
 }
 
-static void	render_player(t_game *game)
+static void	render_player_buffer(t_game *game)
 {
-	void	*player_img;
 	int		pos_x;
 	int		pos_y;
+	void	*player_img;
 
 	pos_x = game->player.x * game->tile_size;
 	pos_y = game->player.y * game->tile_size;
@@ -64,15 +90,15 @@ static void	render_player(t_game *game)
 			player_img = game->assets.player_idle_2;
 	}
 	if (player_img)
-		mlx_put_image_to_window(game->mlx, game->win, player_img, pos_x, pos_y);
+		blit_img(game, player_img, pos_x, pos_y);
 }
 
-static void	render_enemies(t_game *game)
+static void	render_enemies_buffer(t_game *game)
 {
 	int		i;
-	void	*enemy_img;
 	int		pos_x;
 	int		pos_y;
+	void	*enemy_img;
 
 	i = 0;
 	while (i < game->enemy_count)
@@ -84,34 +110,33 @@ static void	render_enemies(t_game *game)
 		else
 			enemy_img = game->assets.enemy_move_2;
 		if (enemy_img)
-			mlx_put_image_to_window(game->mlx, game->win, enemy_img, pos_x,
-				pos_y);
+			blit_img(game, enemy_img, pos_x, pos_y);
 		i++;
 	}
 }
 
 void	render_map(t_game *game)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
+	int	win_height;
 
-	mlx_clear_window(game->mlx, game->win);
-
+	win_height = game->tile_size * game->height;
+	ft_bzero(game->buffer_addr, game->buffer_size_line * win_height);
 	y = 0;
 	while (y < game->height)
 	{
 		x = 0;
 		while (x < game->width)
 		{
-			render_tile(game, x, y);
+			render_tile_buffer(game, x, y);
 			x++;
 		}
 		y++;
 	}
-
-	render_enemies(game);
-	render_player(game);
+	render_enemies_buffer(game);
+	render_player_buffer(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->buffer, 0, 0);
 	render_move_count(game);
-
 	mlx_do_sync(game->mlx);
 }

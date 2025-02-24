@@ -46,18 +46,14 @@ void	move_player(t_game *game, int new_x, int new_y)
 {
 	if (game->win_status)
 		return ;
-	
 	if (can_move_to(game, new_x, new_y))
 	{
 		game->player.x = new_x;
 		game->player.y = new_y;
 		game->player.moves++;
-		
 		ft_printf("Mouvements : %d\n", game->player.moves);
-		
 		collect_item(game, new_x, new_y);
 		check_victory(game, new_x, new_y);
-		
 		render_map(game);
 	}
 }

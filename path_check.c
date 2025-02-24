@@ -85,8 +85,8 @@ static int	check_reachable(char **map, t_game *game)
 
 int	is_path_valid(t_game *game)
 {
-	char **map_copy;
-	int result;
+	char	**map_copy;
+	int		result;
 
 	map_copy = copy_map(game);
 	if (!map_copy)
