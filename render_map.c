@@ -12,25 +12,32 @@
 
 #include "so_long.h"
 
-static void	blit_img(t_game *game, void *src_img, int dest_x, int dest_y)
+void	blit_img(t_game *game, void *src_img, int dest_x, int dest_y)
 {
-	int		x;
-	int		y;
-	int		src_sl;
-	int		src_bpp;
-	int		src_endian;
-	char	*src;
+	int			x;
+	int			y;
+	int			src_sl;
+	int			src_bpp;
+	char		*src;
 
-	src = mlx_get_data_addr(src_img, &src_bpp, &src_sl, &src_endian);
+	src = mlx_get_data_addr(src_img, &src_bpp, &src_sl, &(int){0});
 	y = 0;
 	while (y < game->tile_size)
 	{
 		x = 0;
 		while (x < game->tile_size)
 		{
-			*((unsigned int *)(game->buffer_addr + ((dest_y + y)
-				* game->buffer_size_line + (dest_x + x) * (game->buffer_bpp / 8)))) =
-			*((unsigned int *)(src + (y * src_sl + x * (src_bpp / 8))));
+			{
+				unsigned int	*dest;
+				unsigned int	*src_pixel;
+
+				dest = (unsigned int *)(game->buffer_addr +
+					((dest_y + y) * game->buffer_size_line +
+					(dest_x + x) * (game->buffer_bpp / 8)));
+				src_pixel = (unsigned int *)(src +
+					(y * src_sl + x * (src_bpp / 8)));
+				*dest = *src_pixel;
+			}
 			x++;
 		}
 		y++;
@@ -115,7 +122,8 @@ void	render_map(t_game *game)
 	int	win_height;
 
 	win_height = game->tile_size * game->height;
-	ft_bzero(game->buffer_addr, game->buffer_size_line * win_height);
+	ft_bzero(game->buffer_addr,
+		game->buffer_size_line * win_height);
 	y = 0;
 	while (y < game->height)
 	{
