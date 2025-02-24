@@ -12,38 +12,32 @@
 
 #include "so_long.h"
 
+static void	destroy_img(void *mlx, void **img)
+{
+	if (*img)
+	{
+		mlx_destroy_image(mlx, *img);
+		*img = NULL;
+	}
+}
+
 void	free_images(t_game *game)
 {
-	if (game->assets.wall)
-		mlx_destroy_image(game->mlx, game->assets.wall);
-	if (game->assets.floor)
-		mlx_destroy_image(game->mlx, game->assets.floor);
-	if (game->assets.exit_closed)
-		mlx_destroy_image(game->mlx, game->assets.exit_closed);
-	if (game->assets.exit_open)
-		mlx_destroy_image(game->mlx, game->assets.exit_open);
-	if (game->assets.item_1)
-		mlx_destroy_image(game->mlx, game->assets.item_1);
-	if (game->assets.item_2)
-		mlx_destroy_image(game->mlx, game->assets.item_2);
-	if (game->assets.player_idle_1)
-		mlx_destroy_image(game->mlx, game->assets.player_idle_1);
-	if (game->assets.player_idle_2)
-		mlx_destroy_image(game->mlx, game->assets.player_idle_2);
-	if (game->assets.player_move_1)
-		mlx_destroy_image(game->mlx, game->assets.player_move_1);
-	if (game->assets.player_move_2)
-		mlx_destroy_image(game->mlx, game->assets.player_move_2);
-	if (game->assets.player_win)
-		mlx_destroy_image(game->mlx, game->assets.player_win);
-	if (game->assets.player_dead)
-		mlx_destroy_image(game->mlx, game->assets.player_dead);
-	if (game->assets.enemy_move_1)
-		mlx_destroy_image(game->mlx, game->assets.enemy_move_1);
-	if (game->assets.enemy_move_2)
-		mlx_destroy_image(game->mlx, game->assets.enemy_move_2);
-	if (game->assets.move_bg)
-		mlx_destroy_image(game->mlx, game->assets.move_bg);
+	destroy_img(game->mlx, &game->assets.wall);
+	destroy_img(game->mlx, &game->assets.floor);
+	destroy_img(game->mlx, &game->assets.exit_closed);
+	destroy_img(game->mlx, &game->assets.exit_open);
+	destroy_img(game->mlx, &game->assets.item_1);
+	destroy_img(game->mlx, &game->assets.item_2);
+	destroy_img(game->mlx, &game->assets.player_idle_1);
+	destroy_img(game->mlx, &game->assets.player_idle_2);
+	destroy_img(game->mlx, &game->assets.player_move_1);
+	destroy_img(game->mlx, &game->assets.player_move_2);
+	destroy_img(game->mlx, &game->assets.player_win);
+	destroy_img(game->mlx, &game->assets.player_dead);
+	destroy_img(game->mlx, &game->assets.enemy_move_1);
+	destroy_img(game->mlx, &game->assets.enemy_move_2);
+	destroy_img(game->mlx, &game->assets.move_bg);
 }
 
 void	free_window_and_display(t_game *game)

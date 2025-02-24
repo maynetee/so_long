@@ -11,33 +11,26 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <string.h>
 
 static void	blit_img(t_game *game, void *src_img, int dest_x, int dest_y)
 {
-	char	*src;
-	int		src_bpp;
-	int		src_sl;
-	int		src_endian;
 	int		x;
 	int		y;
-	int		dest_offset;
-	int		src_offset;
-	int		ts;
+	int		src_sl;
+	int		src_bpp;
+	int		src_endian;
+	char	*src;
 
 	src = mlx_get_data_addr(src_img, &src_bpp, &src_sl, &src_endian);
-	ts = game->tile_size;
 	y = 0;
-	while (y < ts)
+	while (y < game->tile_size)
 	{
 		x = 0;
-		while (x < ts)
+		while (x < game->tile_size)
 		{
-			src_offset = y * src_sl + x * (src_bpp / 8);
-			dest_offset = (dest_y + y) * game->buffer_size_line + (dest_x + x)
-				* (game->buffer_bpp / 8);
-			*((unsigned int *)(game->buffer_addr
-						+ dest_offset)) = *((unsigned int *)(src + src_offset));
+			*((unsigned int *)(game->buffer_addr + ((dest_y + y)
+				* game->buffer_size_line + (dest_x + x) * (game->buffer_bpp / 8)))) =
+			*((unsigned int *)(src + (y * src_sl + x * (src_bpp / 8))));
 			x++;
 		}
 		y++;

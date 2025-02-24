@@ -1,6 +1,6 @@
 NAME = so_long
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_PATH = ./Libft
 MLX_PATH = ./mlx_linux
@@ -26,7 +26,7 @@ SRCS = main.c \
        window.c \
        window_extra.c \
        enemy.c 
-       
+
 OBJS = $(SRCS:.c=.o)
 
 INCLUDES = -I$(LIBFT_PATH) -I$(MLX_PATH)
