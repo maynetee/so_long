@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:16:52 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 21:52:33 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:53:39 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,30 @@ void	create_move_count_bg_image(t_game *game)
 	{
 		draw_bg_row(addr, row, sl, bpp);
 		row++;
+	}
+}
+
+void	calc_window_size(t_game *game, int *width, int *height)
+{
+	*width = game->width * 64;
+	*height = game->height * 64;
+	if (*width > 1280)
+		*width = 1280;
+	if (*height > 720)
+		*height = 720;
+	game->tile_size = *width / game->width;
+	if (game->tile_size > *height / game->height)
+		game->tile_size = *height / game->height;
+	*width = game->tile_size * game->width;
+	*height = game->tile_size * game->height;
+}
+
+void	initialize_mlx(t_game *game)
+{
+	game->mlx = mlx_init();
+	if (!game->mlx)
+	{
+		ft_printf("Error\nFailed to init MiniLibX\n");
+		close_game(game);
 	}
 }

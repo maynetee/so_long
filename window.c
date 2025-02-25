@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 01:11:27 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/24 18:35:59 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:54:11 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static int	load_image(void **img, void *mlx, char *path)
+int	load_image(void **img, void *mlx, char *path)
 {
 	int	w;
 	int	h;
@@ -21,7 +21,7 @@ static int	load_image(void **img, void *mlx, char *path)
 	return (*img != NULL);
 }
 
-static int	load_all_images(t_game *game)
+int	load_all_images(t_game *game)
 {
 	return (load_image(&game->assets.wall, game->mlx, "assets/wall.xpm")
 		&& load_image(&game->assets.floor, game->mlx, "assets/floor.xpm")
@@ -47,55 +47,6 @@ static int	load_all_images(t_game *game)
 			"assets/enemy_move_1.xpm")
 		&& load_image(&game->assets.enemy_move_2, game->mlx,
 			"assets/enemy_move_2.xpm"));
-}
-
-static void	calc_window_size(t_game *game, int *width, int *height)
-{
-	*width = game->width * 64;
-	*height = game->height * 64;
-	if (*width > 1280)
-		*width = 1280;
-	if (*height > 720)
-		*height = 720;
-	game->tile_size = *width / game->width;
-	if (game->tile_size > *height / game->height)
-		game->tile_size = *height / game->height;
-	*width = game->tile_size * game->width;
-	*height = game->tile_size * game->height;
-}
-
-void	setup_window(t_game *game)
-{
-	int	width;
-	int	height;
-
-	game->mlx = mlx_init();
-	if (!game->mlx)
-	{
-		ft_printf("Error\nFailed to init MiniLibX\n");
-		close_game(game);
-	}
-	calc_window_size(game, &width, &height);
-	game->win = mlx_new_window(game->mlx, width, height, "So_Long");
-	if (!game->win)
-	{
-		ft_printf("Error\nFailed to create window\n");
-		close_game(game);
-	}
-	game->buffer = mlx_new_image(game->mlx, width, height);
-	if (!game->buffer)
-	{
-		ft_printf("Error\nFailed to create buffer image\n");
-		close_game(game);
-	}
-	game->buffer_addr = mlx_get_data_addr(game->buffer,
-		&game->buffer_bpp, &game->buffer_size_line,
-		&game->buffer_endian);
-	if (!game->buffer_addr)
-	{
-		ft_printf("Error\nFailed to get buffer image address\n");
-		close_game(game);
-	}
 }
 
 void	init_window(t_game *game)

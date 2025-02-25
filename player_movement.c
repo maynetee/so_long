@@ -6,7 +6,7 @@
 /*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:53:09 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/22 21:33:42 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:41:45 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	can_move_to(t_game *game, int x, int y)
 	return (1);
 }
 
-void	collect_item(t_game *game, int nx, int ny)
+static void	collect_item(t_game *game, int nx, int ny)
 {
 	if (game->map[ny][nx] == 'C')
 	{
@@ -32,7 +32,7 @@ void	collect_item(t_game *game, int nx, int ny)
 	}
 }
 
-void	check_victory(t_game *game, int nx, int ny)
+static void	check_victory(t_game *game, int nx, int ny)
 {
 	if (game->map[ny][nx] == 'E' && game->count_c == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 13:26:14 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/14 23:57:52 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:39:53 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,27 @@ int	check_rectangular(char **lines, int height, int width)
 		i++;
 	}
 	return (1);
+}
+
+int	free_lines_return(char **lines, int ret)
+{
+	int	i;
+
+	if (!lines)
+		return (ret);
+	i = 0;
+	while (lines[i])
+	{
+		free(lines[i]);
+		i++;
+	}
+	free(lines);
+	return (ret);
+}
+
+int	free_line_return(char *line, int ret)
+{
+	if (line)
+		free(line);
+	return (ret);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:16:22 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/24 18:35:44 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:52:25 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,31 @@
 
 void	blit_img(t_game *game, void *src_img, int dest_x, int dest_y)
 {
-	int				x;
-	int				y;
-	int				src_sl;
-	int				src_bpp;
-	char			*src;
-	unsigned int	*dest;
-	unsigned int	*src_pixel;
+	int			x;
+	int			y;
+	t_blit_data	data;
 
-	src = mlx_get_data_addr(src_img, &src_bpp, &src_sl, &(int){0});
+	data.src = mlx_get_data_addr(src_img, &data.src_bpp, &data.src_sl,
+			&(int){0});
 	y = 0;
 	while (y < game->tile_size)
 	{
 		x = 0;
 		while (x < game->tile_size)
 		{
-			{
-				dest = (unsigned int *)(game->buffer_addr + ((dest_y + y)
-							* game->buffer_size_line + (dest_x + x)
-							* (game->buffer_bpp / 8)));
-				src_pixel = (unsigned int *)(src + (y * src_sl + x * (src_bpp
-								/ 8)));
-				*dest = *src_pixel;
-			}
+			data.dest = (unsigned int *)(game->buffer_addr + ((dest_y + y)
+						* game->buffer_size_line + (dest_x + x)
+						* (game->buffer_bpp / 8)));
+			data.src_pixel = (unsigned int *)(data.src + (y * data.src_sl + x
+						* (data.src_bpp / 8)));
+			*data.dest = *data.src_pixel;
 			x++;
 		}
 		y++;
 	}
 }
 
-static void	render_tile_buffer(t_game *game, int x, int y)
+void	render_tile_buffer(t_game *game, int x, int y)
 {
 	int	pos_x;
 	int	pos_y;
@@ -69,70 +64,9 @@ static void	render_tile_buffer(t_game *game, int x, int y)
 	}
 }
 
-static void	render_player_buffer(t_game *game)
-{
-	int		pos_x;
-	int		pos_y;
-	void	*player_img;
-
-	pos_x = game->player.x * game->tile_size;
-	pos_y = game->player.y * game->tile_size;
-	if (game->win_status == 1)
-		player_img = game->assets.player_win;
-	else if (game->win_status == 2)
-		player_img = game->assets.player_dead;
-	else
-	{
-		if ((game->global_frame / 30) % 2 == 0)
-			player_img = game->assets.player_idle_1;
-		else
-			player_img = game->assets.player_idle_2;
-	}
-	if (player_img)
-		blit_img(game, player_img, pos_x, pos_y);
-}
-
-static void	render_enemies_buffer(t_game *game)
-{
-	int		i;
-	int		pos_x;
-	int		pos_y;
-	void	*enemy_img;
-
-	i = 0;
-	while (i < game->enemy_count)
-	{
-		pos_x = game->enemies[i].x * game->tile_size;
-		pos_y = game->enemies[i].y * game->tile_size;
-		if ((game->global_frame / 30) % 2 == 0)
-			enemy_img = game->assets.enemy_move_1;
-		else
-			enemy_img = game->assets.enemy_move_2;
-		if (enemy_img)
-			blit_img(game, enemy_img, pos_x, pos_y);
-		i++;
-	}
-}
-
 void	render_map(t_game *game)
 {
-	int	x;
-	int	y;
-	int	win_height;
-
-	win_height = game->tile_size * game->height;
-	ft_bzero(game->buffer_addr, game->buffer_size_line * win_height);
-	y = 0;
-	while (y < game->height)
-	{
-		x = 0;
-		while (x < game->width)
-		{
-			render_tile_buffer(game, x, y);
-			x++;
-		}
-		y++;
-	}
+	prepare_buffer(game);
 	render_enemies_buffer(game);
 	render_player_buffer(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->buffer, 0, 0);

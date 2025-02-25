@@ -22,10 +22,12 @@ SRCS = main.c \
        game_cleanup.c \
        player_movement.c \
        render_map.c \
+       render_entities.c \
        render_utils.c \
        window.c \
        window_extra.c \
-       enemy.c 
+       window_setup.c \
+       enemy.c
 
 OBJS = $(SRCS:.c=.o)
 
