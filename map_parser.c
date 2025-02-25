@@ -25,7 +25,10 @@ static void	store_enemy(t_game *game, int x, int y)
 
 	new_enemies = ft_calloc(game->enemy_count + 1, sizeof(t_enemy));
 	if (!new_enemies)
+	{
+		close_game(game);
 		return ;
+	}
 	i = 0;
 	while (i < game->enemy_count)
 	{

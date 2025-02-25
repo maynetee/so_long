@@ -34,8 +34,16 @@ void	create_move_count_bg_image(t_game *game)
 
 	game->assets.move_bg = mlx_new_image(game->mlx, 100, 25);
 	if (!game->assets.move_bg)
+	{
+		close_game(game);
 		return ;
+	}
 	addr = mlx_get_data_addr(game->assets.move_bg, &bpp, &sl, &endian);
+	if (!addr)
+	{
+		close_game(game);
+		return ;
+	}
 	row = 0;
 	while (row < 20)
 	{

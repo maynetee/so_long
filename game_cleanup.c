@@ -38,6 +38,11 @@ void	free_images(t_game *game)
 	destroy_img(game->mlx, &game->assets.enemy_move_1);
 	destroy_img(game->mlx, &game->assets.enemy_move_2);
 	destroy_img(game->mlx, &game->assets.move_bg);
+	if (game->buffer)
+	{
+		mlx_destroy_image(game->mlx, game->buffer);
+		game->buffer = NULL;
+	}
 }
 
 void	free_window_and_display(t_game *game)
