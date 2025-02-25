@@ -73,6 +73,6 @@ void	initialize_mlx(t_game *game)
 	if (!game->mlx)
 	{
 		ft_printf("Error\nFailed to init MiniLibX\n");
-		close_game(game);
+		exit(EXIT_FAILURE);
 	}
 }

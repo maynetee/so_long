@@ -14,7 +14,7 @@
 
 static void	destroy_img(void *mlx, void **img)
 {
-	if (*img)
+	if (mlx && *img)
 	{
 		mlx_destroy_image(mlx, *img);
 		*img = NULL;
