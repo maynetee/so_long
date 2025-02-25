@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_checks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mteichma <mteichma@student.42.fr >         +#+  +:+       +#+        */
+/*   By: mteichma <mteichma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:41:33 by mteichma          #+#    #+#             */
-/*   Updated: 2025/02/25 16:37:48 by mteichma         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:21:28 by mteichma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	check_args(t_game *game, int ac, char **av)
 	game->fd = open(av[1], O_RDONLY);
 	if (game->fd < 0)
 	{
-		perror("Error");
 		ft_printf("Error\nCannot open file: %s\n", av[1]);
 		return (0);
 	}
