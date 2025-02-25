@@ -135,8 +135,8 @@ void				move_enemies(t_game *game);
 int					update_game(t_game *game);
 
 /* File: render_map.c */
-void				blit_img(t_game *game, void *src_img,
-						int dest_x, int dest_y);
+void				blit_img(t_game *game, void *src_img, int dest_x,
+						int dest_y);
 void				render_map(t_game *game);
 void				render_tile_buffer(t_game *game, int x, int y);
 
@@ -159,9 +159,9 @@ void				calc_window_size(t_game *game, int *width, int *height);
 void				initialize_mlx(t_game *game);
 
 /* File: window_setup.c */
-void				setup_window(t_game *game);
-void				create_window(t_game *game, int width, int height);
-void				create_buffer(t_game *game, int width, int height);
+int					create_window(t_game *game, int width, int height);
+int					create_buffer(t_game *game, int width, int height);
+int					setup_window(t_game *game);
 
 /* File: main.c */
 void				init_game_struct(t_game *game);

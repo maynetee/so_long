@@ -53,6 +53,8 @@ static void	init_game_values(t_game *game)
 	game->tile_size = 0;
 	game->mlx = NULL;
 	game->win = NULL;
+	game->buffer = NULL;
+	game->buffer_addr = NULL;
 	game->enemies = NULL;
 	game->enemy_count = 0;
 	init_assets(game);

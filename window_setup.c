@@ -12,41 +12,52 @@
 
 #include "so_long.h"
 
-void	create_window(t_game *game, int width, int height)
+int	create_window(t_game *game, int width, int height)
 {
 	game->win = mlx_new_window(game->mlx, width, height, "So_Long");
 	if (!game->win)
 	{
 		ft_printf("Error\nFailed to create window\n");
-		close_game(game);
+		return (0);
 	}
+	return (1);
 }
 
-void	create_buffer(t_game *game, int width, int height)
+int	create_buffer(t_game *game, int width, int height)
 {
 	game->buffer = mlx_new_image(game->mlx, width, height);
 	if (!game->buffer)
 	{
 		ft_printf("Error\nFailed to create buffer image\n");
-		close_game(game);
+		return (0);
 	}
 	game->buffer_addr = mlx_get_data_addr(game->buffer,
 			&game->buffer_bpp, &game->buffer_size_line,
 			&game->buffer_endian);
 	if (!game->buffer_addr)
 	{
+		mlx_destroy_image(game->mlx, game->buffer);
+		game->buffer = NULL;
 		ft_printf("Error\nFailed to get buffer image address\n");
-		close_game(game);
+		return (0);
 	}
+	return (1);
 }
 
-void	setup_window(t_game *game)
+int	setup_window(t_game *game)
 {
 	int	width;
 	int	height;
 
 	initialize_mlx(game);
 	calc_window_size(game, &width, &height);
-	create_window(game, width, height);
-	create_buffer(game, width, height);
+	if (!create_window(game, width, height))
+		return (0);
+	if (!create_buffer(game, width, height))
+	{
+		mlx_destroy_window(game->mlx, game->win);
+		game->win = NULL;
+		return (0);
+	}
+	return (1);
 }

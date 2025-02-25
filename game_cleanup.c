@@ -23,6 +23,8 @@ static void	destroy_img(void *mlx, void **img)
 
 void	free_images(t_game *game)
 {
+	if (!game->mlx)
+		return ;
 	destroy_img(game->mlx, &game->assets.wall);
 	destroy_img(game->mlx, &game->assets.floor);
 	destroy_img(game->mlx, &game->assets.exit_closed);
@@ -38,16 +40,12 @@ void	free_images(t_game *game)
 	destroy_img(game->mlx, &game->assets.enemy_move_1);
 	destroy_img(game->mlx, &game->assets.enemy_move_2);
 	destroy_img(game->mlx, &game->assets.move_bg);
-	if (game->buffer)
-	{
-		mlx_destroy_image(game->mlx, game->buffer);
-		game->buffer = NULL;
-	}
+	destroy_img(game->mlx, &game->buffer);
 }
 
 void	free_window_and_display(t_game *game)
 {
-	if (game->win)
+	if (game->win && game->mlx)
 	{
 		mlx_destroy_window(game->mlx, game->win);
 		game->win = NULL;

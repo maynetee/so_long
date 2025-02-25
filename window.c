@@ -51,17 +51,22 @@ int	load_all_images(t_game *game)
 
 void	init_window(t_game *game)
 {
-	setup_window(game);
+	if (!setup_window(game))
+	{
+		free_window_and_display(game);
+		free_map_and_exit(game);
+		return ;
+	}
 	if (!load_all_images(game))
 	{
 		ft_printf("Error\nFailed to load images\n");
 		close_game(game);
+		return ;
 	}
 	create_move_count_bg_image(game);
 	render_map(game);
 	mlx_hook(game->win, 17, 0, close_game_wrapper, game);
 	mlx_hook(game->win, 2, 1L << 0, handle_keypress, game);
-	mlx_do_key_autorepeaton(game->mlx);
 	mlx_loop_hook(game->mlx, update_game, game);
 	mlx_loop(game->mlx);
 }
